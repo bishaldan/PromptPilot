@@ -22,41 +22,46 @@ export async function GET(req: NextRequest) {
       }
     : {};
 
-  const [users, total] = await Promise.all([
-    prisma.user.findMany({
-      where,
-      skip,
-      take: limit,
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        email: true,
-        displayName: true,
-        role: true,
-        createdAt: true,
-        _count: {
-          select: {
-            lessonRuns: { where: { status: "COMPLETED" } },
-            badges: true,
+  try {
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          email: true,
+          displayName: true,
+          role: true,
+          createdAt: true,
+          _count: {
+            select: {
+              lessonRuns: { where: { status: "COMPLETED" } },
+              badges: true,
+            },
           },
         },
-      },
-    }),
-    prisma.user.count({ where }),
-  ]);
+      }),
+      prisma.user.count({ where }),
+    ]);
 
-  return NextResponse.json({
-    users: users.map((u) => ({
-      id: u.id,
-      email: u.email,
-      displayName: u.displayName,
-      role: u.role,
-      createdAt: u.createdAt,
-      completedLessons: u._count.lessonRuns,
-      badges: u._count.badges,
-    })),
-    total,
-    page,
-    totalPages: Math.ceil(total / limit),
-  });
+    return NextResponse.json({
+      users: users.map((u) => ({
+        id: u.id,
+        email: u.email,
+        displayName: u.displayName,
+        role: u.role,
+        createdAt: u.createdAt,
+        completedLessons: u._count.lessonRuns,
+        badges: u._count.badges,
+      })),
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error("Admin users error:", error);
+    return NextResponse.json({ error: "Failed to load admin users." }, { status: 500 });
+  }
 }

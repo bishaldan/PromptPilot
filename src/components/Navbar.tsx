@@ -65,6 +65,9 @@ export default function Navbar() {
         <a href="/dashboard" className={`navbar-link ${pathname === "/dashboard" ? "active" : ""}`}>
           Dashboard
         </a>
+        <a href="/explore" className={`navbar-link ${pathname === "/explore" ? "active" : ""}`}>
+          Explore
+        </a>
         <a href="/about" className={`navbar-link ${pathname === "/about" ? "active" : ""}`}>
           About
         </a>

@@ -16,6 +16,7 @@ export default function AboutPage() {
           AI Teaching Hub
         </a>
         <div className="public-nav-links">
+          <a href="/explore" className="public-nav-link">Explore</a>
           <a href="/about" className="public-nav-link">About</a>
           <a href="/login" className="public-nav-link">Log in</a>
           <a href="/register" className="public-nav-link cta">Get Started</a>

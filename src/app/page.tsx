@@ -1,5 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "AI Teaching Hub - Learn AI Tools Interactively for Free",
+  description: "Master Google Gemini, ChatGPT, and other AI tools with our free, step-by-step interactive lessons. A learning platform designed for beginners and people of all ages.",
+  keywords: ["AI learning", "learn ChatGPT", "learn Gemini", "AI tutorial", "interactive AI lessons", "free AI course"],
+  openGraph: {
+    title: "AI Teaching Hub | Free Interactive AI Learning",
+    description: "Learn AI tools easily through hands-on practice. Free for everyone.",
+    type: "website",
+    url: "https://ai-auto-teaching-hub.com",
+    siteName: "AI Teaching Hub",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Teaching Hub",
+    description: "Learn how to use AI tools step-by-step for free.",
+  }
+};
 
 export default function HomePage() {
   return (
@@ -11,6 +30,7 @@ export default function HomePage() {
           AI Teaching Hub
         </a>
         <div className="public-nav-links">
+          <a href="/explore" className="public-nav-link">Explore</a>
           <a href="/about" className="public-nav-link">About</a>
           <a href="/login" className="public-nav-link">Log in</a>
           <a href="/register" className="public-nav-link cta">Get Started</a>

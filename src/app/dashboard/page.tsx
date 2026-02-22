@@ -450,49 +450,97 @@ export default function DashboardPage() {
         {courseData.map(({ tool, completed, inProgress, total, totalMinutes }) => {
           const slug = tool.slug as keyof typeof COURSE_GRADIENTS;
           const hasProgress = completed > 0 || inProgress > 0;
+          const bgGradient = COURSE_GRADIENTS[slug] || "var(--panel)";
+          const isColored = !!COURSE_GRADIENTS[slug];
 
           return (
             <article
               key={tool.id}
-              className="course-card panel"
+              className="course-card panel colored-card hover-scale"
+              style={{ 
+                background: isColored ? bgGradient : 'var(--panel)',
+                color: isColored ? '#fff' : 'inherit',
+                border: isColored ? '1px solid rgba(255,255,255,0.1)' : 'none',
+                padding: 0,
+                boxShadow: isColored ? '0 10px 30px -10px rgba(0,0,0,0.3)' : 'var(--shadow)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
               onClick={() => setSelectedCourse(tool.slug)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === "Enter" && setSelectedCourse(tool.slug)}
             >
-              <div
-                className="course-card-accent"
-                style={{ background: COURSE_GRADIENTS[slug] || "var(--accent-gradient)" }}
-              />
-              <div className="course-card-body">
-                <div className="course-card-top">
-                  <div className="course-card-icon">
+              <div className="course-card-body" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', height: '100%', position: 'relative', zIndex: 1 }}>
+                <div className="course-card-top" style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div className="course-card-icon" style={{ 
+                    background: 'rgba(255,255,255,0.15)', 
+                    borderRadius: '20px', 
+                    padding: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backdropFilter: 'blur(12px)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                  }}>
                     {['chatgpt', 'gemini'].includes(slug) ? (
-                      <img src={`/images/logos/${slug}.svg`} alt={`${tool.name} logo`} width={40} height={40} />
+                      <img src={`/images/logos/${slug}.svg`} alt={`${tool.name} logo`} width={56} height={56} style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))' }} />
                     ) : (
-                      tool.icon
+                      <span style={{ fontSize: '3rem' }}>{tool.icon}</span>
                     )}
                   </div>
                   <ProgressRing
                     completed={completed}
                     total={total}
                     size={64}
-                    stroke={4}
-                    color={tool.color || "var(--accent)"}
+                    stroke={5}
+                    color={isColored ? 'rgba(255,255,255,0.95)' : (tool.color || "var(--accent)")}
                   />
                 </div>
-                <h2 className="course-card-title">
+                <h2 className="course-card-title" style={{ 
+                  color: isColored ? '#fff' : 'var(--text-primary)', 
+                  fontSize: '2rem', 
+                  fontWeight: 800,
+                  marginBottom: '1rem',
+                  textShadow: isColored ? '0 2px 4px rgba(0,0,0,0.4)' : 'none',
+                  letterSpacing: '-0.02em'
+                }}>
                   {COURSE_NAMES[slug] || tool.name}
                 </h2>
-                <p className="course-card-desc">
+                <p className="course-card-desc" style={{ 
+                  color: isColored ? 'rgba(255,255,255,0.9)' : 'var(--muted)', 
+                  fontSize: '1.15rem', 
+                  lineHeight: 1.6,
+                  flexGrow: 1,
+                  textShadow: isColored ? '0 1px 2px rgba(0,0,0,0.3)' : 'none'
+                }}>
                   {COURSE_DESCRIPTIONS[slug] || tool.description || ""}
                 </p>
-                <div className="course-card-meta">
+                <div className="course-card-meta" style={{ 
+                  color: isColored ? 'rgba(255,255,255,0.85)' : 'var(--muted)', 
+                  marginTop: '1.5rem', 
+                  marginBottom: '2rem',
+                  fontWeight: 500,
+                  fontSize: '0.95rem',
+                  textShadow: isColored ? '0 1px 2px rgba(0,0,0,0.2)' : 'none'
+                }}>
                   <span>{total} lessons</span>
-                  <span>•</span>
+                  <span style={{ margin: '0 8px', opacity: 0.6 }}>•</span>
                   <span>~{Math.round(totalMinutes / 60 * 10) / 10}h</span>
                 </div>
-                <button className="course-card-btn primary">
+                <button className="course-card-btn" style={{ 
+                  background: isColored ? '#fff' : 'var(--accent)', 
+                  color: isColored ? 'var(--text-primary)' : '#fff',
+                  border: 'none',
+                  borderRadius: '9999px',
+                  padding: '1rem 1.5rem',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
+                  boxShadow: isColored ? '0 6px 20px rgba(0,0,0,0.15)' : 'none',
+                  marginTop: 'auto',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  cursor: 'pointer'
+                }}>
                   {hasProgress ? "Continue Learning →" : "Start Learning →"}
                 </button>
               </div>

@@ -112,27 +112,23 @@ export default function ProfilePage() {
       <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem" }}>Your Learning Stats</h2>
       <div className="stats-grid card-list" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
-          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>📚</div>
-          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{stats.completedLessons}</strong>
-          <span className="muted">Lessons Completed</span>
+          <strong style={{ fontSize: "2.5rem", display: "block", color: "var(--accent)", marginBottom: "0.5rem", fontWeight: 800 }}>{stats.completedLessons}</strong>
+          <span className="muted" style={{ fontSize: "0.95rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Lessons Completed</span>
         </article>
 
         <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
-          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🏆</div>
-          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{stats.badgesEarned}</strong>
-          <span className="muted">Badges Earned</span>
+          <strong style={{ fontSize: "2.5rem", display: "block", color: "var(--accent)", marginBottom: "0.5rem", fontWeight: 800 }}>{stats.badgesEarned}</strong>
+          <span className="muted" style={{ fontSize: "0.95rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Badges Earned</span>
         </article>
         
         <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
-          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🎯</div>
-          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{completionRate}%</strong>
-          <span className="muted">Completion Rate</span>
+          <strong style={{ fontSize: "2.5rem", display: "block", color: "var(--accent)", marginBottom: "0.5rem", fontWeight: 800 }}>{completionRate}%</strong>
+          <span className="muted" style={{ fontSize: "0.95rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Completion Rate</span>
         </article>
 
         <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
-          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>👣</div>
-          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{stats.totalStepsCompleted}</strong>
-          <span className="muted">Steps Completed</span>
+          <strong style={{ fontSize: "2.5rem", display: "block", color: "var(--accent)", marginBottom: "0.5rem", fontWeight: 800 }}>{stats.totalStepsCompleted}</strong>
+          <span className="muted" style={{ fontSize: "0.95rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Steps Completed</span>
         </article>
       </div>
     </div>
