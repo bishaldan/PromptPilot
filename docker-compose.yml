@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mariadb:11.4
+    container_name: ai_auto_teaching_db
+    environment:
+      MARIADB_DATABASE: ai_auto_teaching
+      MARIADB_USER: app
+      MARIADB_PASSWORD: app
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -proot --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_auto_teaching_web
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: mysql://app:app@db:3306/ai_auto_teaching
+      AUTH_SECRET: change-this-auth-secret
+      LESSON_TOKEN_SECRET: change-this-lesson-secret
+      POLICY_VERSION: v1
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_API_BASE_URL: ""
+    volumes:
+      - .:/app
+      - web_node_modules:/app/node_modules
+
+volumes:
+  mariadb_data:
+  web_node_modules:

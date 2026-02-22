@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum LessonRunStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum LessonRunStepStatus {
+  LOCKED
+  ACTIVE
+  COMPLETED
+}
+
+enum LessonDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  passwordHash String
+  displayName  String?
+  avatarUrl    String?
+  role         String       @default("user")
+  lastLoginAt  DateTime?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  consents     Consent[]
+  lessonRuns   LessonRun[]
+  badges       BadgeAward[]
+}
+
+model Consent {
+  id            String   @id @default(cuid())
+  userId        String
+  acceptedAt    DateTime @default(now())
+  policyVersion String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, policyVersion])
+}
+
+model Tool {
+  id          String   @id
+  slug        String   @unique
+  name        String
+  icon        String?
+  color       String?
+  description String?  @db.Text
+  isActive    Boolean  @default(true)
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id               String           @id
+  toolId           String
+  title            String
+  description      String           @db.Text
+  difficulty       LessonDifficulty @default(BEGINNER)
+  category         String?
+  estimatedMinutes Int?
+  sortOrder        Int              @default(0)
+  isActive         Boolean          @default(true)
+  tool             Tool             @relation(fields: [toolId], references: [id], onDelete: Cascade)
+  steps            LessonStep[]
+  runs             LessonRun[]
+  badges           BadgeAward[]
+
+  @@index([toolId])
+}
+
+model LessonStep {
+  id                 String     @id
+  lessonId           String
+  stepOrder          Int
+  instruction        String     @db.Text
+  urlPattern         String
+  actionType         String
+  completionRule     String
+  allowManualConfirm Boolean    @default(false)
+  targetSelectors    Json
+  configJson         Json
+  lesson             Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  runSteps           LessonRunStep[]
+  telemetryEvents    TelemetryEvent[]
+
+  @@unique([lessonId, stepOrder])
+}
+
+model LessonRun {
+  id          String             @id @default(cuid())
+  userId      String
+  lessonId    String
+  status      LessonRunStatus    @default(IN_PROGRESS)
+  startedAt   DateTime           @default(now())
+  completedAt DateTime?
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson             @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  steps       LessonRunStep[]
+  telemetry   TelemetryEvent[]
+
+  @@index([userId, lessonId])
+}
+
+model LessonRunStep {
+  id           String              @id @default(cuid())
+  runId         String
+  lessonStepId  String
+  status        LessonRunStepStatus @default(LOCKED)
+  startedAt     DateTime?
+  completedAt   DateTime?
+  run           LessonRun          @relation(fields: [runId], references: [id], onDelete: Cascade)
+  lessonStep    LessonStep         @relation(fields: [lessonStepId], references: [id], onDelete: Cascade)
+
+  @@unique([runId, lessonStepId])
+  @@index([runId, status])
+}
+
+model TelemetryEvent {
+  id                 String     @id @default(cuid())
+  runId              String
+  stepId             String
+  eventType          String
+  selectorId         String?
+  inputLengthBucket  String?
+  urlHash            String
+  createdAt          DateTime   @default(now())
+  run                LessonRun  @relation(fields: [runId], references: [id], onDelete: Cascade)
+  step               LessonStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  @@index([runId, stepId])
+}
+
+model BadgeAward {
+  id         String   @id @default(cuid())
+  userId     String
+  lessonId   String
+  awardedAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson     Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}

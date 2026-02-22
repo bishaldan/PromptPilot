@@ -1,0 +1,740 @@
+[
+  {
+    "id": "gemini-chat-basics",
+    "tool": "gemini",
+    "title": "Gemini Chat Basics",
+    "description": "Learn how to open Gemini, find the chat box, send your first prompt, and check for a response.",
+    "steps": [
+      {
+        "id": "gcb-step-1",
+        "order": 1,
+        "instruction": "Open Gemini in a new tab.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": false
+      },
+      {
+        "id": "gcb-step-2",
+        "order": 2,
+        "instruction": "Click the main prompt/chat input area.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gcb-step-3",
+        "order": 3,
+        "instruction": "Type a short prompt in the input box.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gcb-step-4",
+        "order": 4,
+        "instruction": "Send your prompt and wait until Gemini response content appears.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-follow-up-prompts",
+    "tool": "gemini",
+    "title": "Better Follow-Up Prompts",
+    "description": "Practice asking a follow-up question to improve or refine the first answer.",
+    "steps": [
+      {
+        "id": "gfp-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the chat input area.",
+        "coachText": "This is the message input. You can type prompts here to chat with Gemini.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": false
+      },
+      {
+        "id": "gfp-step-2",
+        "order": 2,
+        "instruction": "Click the chat input area again for your follow-up.",
+        "coachText": "Click the input area so you can ask a follow-up question based on the previous response.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gfp-step-3",
+        "order": 3,
+        "instruction": "Type a follow-up prompt asking Gemini to improve clarity.",
+        "coachText": "Type a refined follow-up prompt. Good follow-ups ask for clearer structure or better examples.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gfp-step-4",
+        "order": 4,
+        "instruction": "Send it and wait for a new response block.",
+        "coachText": "After sending your follow-up, Gemini will generate a second response here.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-feature-tour",
+    "tool": "gemini",
+    "title": "Gemini Feature Tour",
+    "description": "Learn what the + button, Tools menu, and model selector do.",
+    "steps": [
+      {
+        "id": "gft-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the + Add file button.",
+        "coachText": "This + icon is the Add file button. Use it to attach files, Drive items, photos, and other context before sending your prompt.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-add-file-button",
+          "css=button[aria-label*='Add']",
+          "css=button[aria-label*='Attach']",
+          "css=button[aria-label*='Upload']",
+          "css=button[aria-label*='upload file']"
+        ],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-2",
+        "order": 2,
+        "instruction": "Click the + Add file button.",
+        "coachText": "Click the + Add file button to open the attachment menu.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-add-file-button",
+          "css=button[aria-label*='Add']",
+          "css=button[aria-label*='Attach']",
+          "css=button[aria-label*='Upload']",
+          "css=button[aria-label*='upload file']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-3",
+        "order": 3,
+        "instruction": "Review the + menu options.",
+        "coachText": "These options let you upload files, add from Drive, use photos, or bring data from NotebookLM.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-add-file-menu"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-4",
+        "order": 4,
+        "instruction": "Locate the Tools button.",
+        "coachText": "The Tools area gives quick access to Gemini features like image generation, music, canvas, and guided learning.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-5",
+        "order": 5,
+        "instruction": "Click the Tools button.",
+        "coachText": "Click Tools to open the feature menu.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-6",
+        "order": 6,
+        "instruction": "Review the Tools menu items.",
+        "coachText": "This menu shows built-in capabilities such as Create images, Create music, Canvas, and Guided Learning.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-menu"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-7",
+        "order": 7,
+        "instruction": "Locate the model selector (for example Pro).",
+        "coachText": "This selector controls which Gemini model behavior you use for this chat.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-model-selector",
+          "text=Pro",
+          "text=Gemini 3",
+          "text=Fast",
+          "css=button[aria-label*='model']",
+          "css=button[aria-label*='mode picker']"
+        ],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-8",
+        "order": 8,
+        "instruction": "Click the model selector.",
+        "coachText": "Click to open model options like Fast, Thinking, and Pro.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-model-selector",
+          "text=Pro",
+          "text=Gemini 3",
+          "text=Fast",
+          "css=button[aria-label*='model']",
+          "css=button[aria-label*='mode picker']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gft-step-9",
+        "order": 9,
+        "instruction": "Review the model options panel.",
+        "coachText": "Model options change speed and capability. Fast is quick, Thinking is deeper, and Pro is advanced.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-model-menu"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-image-generation",
+    "tool": "gemini",
+    "title": "Generate Images with Gemini",
+    "description": "Learn how to use Gemini's built-in image generation to create pictures from text descriptions.",
+    "steps": [
+      {
+        "id": "gig-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the Tools button.",
+        "coachText": "The Tools button opens a menu of Gemini's advanced capabilities including image creation.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gig-step-2",
+        "order": 2,
+        "instruction": "Click the Tools button to open the menu.",
+        "coachText": "Click Tools to reveal the available capabilities.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gig-step-3",
+        "order": 3,
+        "instruction": "Select 'Create image' from the Tools menu.",
+        "coachText": "This option activates Gemini's built-in image generation model (Imagen). Your next prompt will generate an image.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-create-image", "text=Create image"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gig-step-4",
+        "order": 4,
+        "instruction": "Type an image description prompt (e.g., 'A sunset over mountains in watercolor style').",
+        "coachText": "Describe the image you want to generate. Be specific about subject, style, and mood for better results.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gig-step-5",
+        "order": 5,
+        "instruction": "Send the prompt and wait for the generated image to appear.",
+        "coachText": "Gemini will process your description and produce one or more images. This may take a few seconds.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-canvas",
+    "tool": "gemini",
+    "title": "Collaborative Editing with Canvas",
+    "description": "Learn how to use Canvas for side-by-side collaborative document and code editing with Gemini.",
+    "steps": [
+      {
+        "id": "gcv-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the Tools button.",
+        "coachText": "Canvas is one of the advanced tools available in the Tools menu.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gcv-step-2",
+        "order": 2,
+        "instruction": "Click the Tools button to open the menu.",
+        "coachText": "Click Tools to see Canvas and other editing features.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gcv-step-3",
+        "order": 3,
+        "instruction": "Select 'Canvas' from the Tools menu.",
+        "coachText": "Canvas opens a side-by-side workspace where you can edit documents or code collaboratively with Gemini.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-canvas", "text=Canvas"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gcv-step-4",
+        "order": 4,
+        "instruction": "Type a prompt asking Gemini to create content (e.g., 'Write a project proposal for a mobile app').",
+        "coachText": "Ask Gemini to produce content. Canvas mode will render it in an editable side panel.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gcv-step-5",
+        "order": 5,
+        "instruction": "Send the prompt and wait for the Canvas side panel to appear.",
+        "coachText": "The Canvas workspace will appear on the right side of the screen with editable content.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-deep-research",
+    "tool": "gemini",
+    "title": "Deep Research Mode",
+    "description": "Learn how to use Deep Research for comprehensive, multi-source research reports with citations.",
+    "steps": [
+      {
+        "id": "gdr-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the Tools button.",
+        "coachText": "Deep Research is an advanced tool that produces structured research reports.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gdr-step-2",
+        "order": 2,
+        "instruction": "Click the Tools button to open the menu.",
+        "coachText": "Click the Tools button to access Deep Research.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-tools-button", "text=Tools", "css=button[aria-label*='Tools']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gdr-step-3",
+        "order": 3,
+        "instruction": "Select 'Deep research' from the Tools menu.",
+        "coachText": "Deep Research tasks Gemini with a thorough multi-source investigation on your topic. It may take longer but produces comprehensive results.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-deep-research", "text=Deep research"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gdr-step-4",
+        "order": 4,
+        "instruction": "Type a research topic (e.g., 'Compare solar panel technologies for home use').",
+        "coachText": "Enter a topic you want thoroughly researched. The more specific your question, the better the results.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gdr-step-5",
+        "order": 5,
+        "instruction": "Send the prompt and wait for the research plan or report to appear.",
+        "coachText": "Gemini will first show a research plan, then begin gathering information from multiple sources.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-file-upload",
+    "tool": "gemini",
+    "title": "Upload & Analyze Files",
+    "description": "Learn how to upload files (images, PDFs, documents) to Gemini for analysis and summarization.",
+    "steps": [
+      {
+        "id": "gfu-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the + (upload) button.",
+        "coachText": "The + button lets you attach files, photos, and Drive documents to your prompt for Gemini to analyze.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-add-file-button",
+          "css=button[aria-label*='Add']",
+          "css=button[aria-label*='upload file']"
+        ],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gfu-step-2",
+        "order": 2,
+        "instruction": "Click the + button to open the upload menu.",
+        "coachText": "Click to see upload options: Upload files, Add from Drive, Photos.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-add-file-button",
+          "css=button[aria-label*='Add']",
+          "css=button[aria-label*='upload file']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gfu-step-3",
+        "order": 3,
+        "instruction": "Review the upload menu options.",
+        "coachText": "You can upload local files, add documents from Google Drive, or select photos. Choose Upload files for this lesson.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-add-file-menu"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gfu-step-4",
+        "order": 4,
+        "instruction": "Select a file to upload (confirm manually after selecting).",
+        "coachText": "Pick any file — an image, PDF, or document. Gemini can analyze text, images, data tables, and more.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["text=Upload files", "text=Upload"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gfu-step-5",
+        "order": 5,
+        "instruction": "Type a prompt asking Gemini to analyze the uploaded file (e.g., 'Summarize this document').",
+        "coachText": "After attaching your file, type what you want Gemini to do with it — summarize, extract data, translate, etc.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gfu-step-6",
+        "order": 6,
+        "instruction": "Send the prompt and wait for Gemini's analysis.",
+        "coachText": "Gemini will process your file and respond with the analysis or summary you requested.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-response-controls",
+    "tool": "gemini",
+    "title": "Mastering Response Controls",
+    "description": "Learn how to modify, share, export, copy, and fact-check Gemini's responses.",
+    "steps": [
+      {
+        "id": "grc-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and send any prompt to get a response.",
+        "coachText": "Type any question or prompt into the input area to generate a response we can practice controlling.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "grc-step-2",
+        "order": 2,
+        "instruction": "Type a prompt and send it.",
+        "coachText": "Type a question like 'Explain quantum computing in simple terms' and press Enter.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "grc-step-3",
+        "order": 3,
+        "instruction": "Wait for Gemini's response to appear.",
+        "coachText": "Once the response is generated, you'll see action buttons below it for modifying and sharing.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "grc-step-4",
+        "order": 4,
+        "instruction": "Locate the 'Modify response' button below the response.",
+        "coachText": "The Modify Response button lets you adjust the answer's length, tone, and complexity without re-prompting.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-modify-response", "css=button[aria-label*='Modify']", "text=Modify response"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "grc-step-5",
+        "order": 5,
+        "instruction": "Locate the 'Copy' button to copy the response.",
+        "coachText": "The Copy button copies the entire response text to your clipboard for pasting elsewhere.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-copy-response", "css=button[aria-label*='Copy']", "text=Copy"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "grc-step-6",
+        "order": 6,
+        "instruction": "Locate the 'Share & export' button.",
+        "coachText": "Share & Export lets you share a link, export to Google Docs, or draft an email in Gmail with the response.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-share-export", "css=button[aria-label*='Share']", "text=Share"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "grc-step-7",
+        "order": 7,
+        "instruction": "Locate the 'Double-check' button for fact-checking.",
+        "coachText": "The Double-check button uses Google Search to verify claims in the response. Green highlights indicate supported facts, orange indicates uncertain claims.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-double-check", "css=button[aria-label*='Double-check']", "css=button[aria-label*='check']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-quick-actions",
+    "tool": "gemini",
+    "title": "Quick Action Chips",
+    "description": "Learn how to use the Write, Plan, Research, and Learn quick-start chips to jump into common tasks.",
+    "steps": [
+      {
+        "id": "gqa-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the quick action chips below the prompt.",
+        "coachText": "Quick action chips provide one-tap templates for common tasks. Look for Write, Plan, Research, and Learn below the input box.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-quick-chip-write", "text=Write"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gqa-step-2",
+        "order": 2,
+        "instruction": "Click the 'Write' chip.",
+        "coachText": "The Write chip sets up a writing-focused prompt. Gemini will help you draft essays, emails, stories, and more.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-quick-chip-write", "text=Write"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gqa-step-3",
+        "order": 3,
+        "instruction": "Locate the 'Plan' chip.",
+        "coachText": "The Plan chip helps you create structured plans — trip itineraries, project timelines, study schedules, and more.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-quick-chip-plan", "text=Plan"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gqa-step-4",
+        "order": 4,
+        "instruction": "Locate the 'Research' chip.",
+        "coachText": "The Research chip sets up a research-focused prompt. Gemini will gather and synthesize information from the web.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-quick-chip-research", "text=Research"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gqa-step-5",
+        "order": 5,
+        "instruction": "Locate the 'Learn' chip.",
+        "coachText": "The Learn chip activates a learning-focused prompt mode. Use it to understand new concepts, get explanations, and study topics.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-quick-chip-learn", "text=Learn"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "gemini-model-switching",
+    "tool": "gemini",
+    "title": "Choosing the Right AI Model",
+    "description": "Learn the difference between Fast, Thinking, and Pro models and how to switch between them.",
+    "steps": [
+      {
+        "id": "gms-step-1",
+        "order": 1,
+        "instruction": "Open Gemini and locate the model selector.",
+        "coachText": "The model selector shows the currently active model (like 'Fast'). Click it to switch between different AI capabilities.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-model-selector",
+          "text=Fast",
+          "text=Pro",
+          "css=button[aria-label*='model']",
+          "css=button[aria-label*='mode picker']"
+        ],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gms-step-2",
+        "order": 2,
+        "instruction": "Click the model selector to open the dropdown.",
+        "coachText": "Click to see the available models: Fast, Thinking, and Pro.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": [
+          "special=gemini-model-selector",
+          "text=Fast",
+          "text=Pro",
+          "css=button[aria-label*='model']",
+          "css=button[aria-label*='mode picker']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gms-step-3",
+        "order": 3,
+        "instruction": "Review the model options: Fast, Thinking, and Pro.",
+        "coachText": "Fast answers quickly. Thinking solves complex reasoning problems step-by-step. Pro handles advanced math and code with Gemini 3.1 Pro.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["special=gemini-model-menu"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gms-step-4",
+        "order": 4,
+        "instruction": "Select the 'Thinking' model.",
+        "coachText": "Thinking mode excels at complex reasoning, multi-step problems, and detailed analysis. Try it for harder questions.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["text=Thinking"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gms-step-5",
+        "order": 5,
+        "instruction": "Type a complex reasoning prompt (e.g., 'Solve this step by step: If a train travels...').",
+        "coachText": "Thinking mode will show its reasoning process before giving the final answer.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["textarea", "div[contenteditable='true']", "[role='textbox']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "gms-step-6",
+        "order": 6,
+        "instruction": "Send the prompt and observe the thinking process.",
+        "coachText": "Watch how Thinking mode breaks down the problem step-by-step before reaching its conclusion.",
+        "urlPattern": "https://gemini.google.com/*",
+        "targetSelectors": ["[data-test-id='assistant-response']", "[role='article']", "main"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  }
+]

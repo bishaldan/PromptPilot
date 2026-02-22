@@ -1,0 +1,10 @@
+[
+  {
+    "id": "gemini",
+    "slug": "gemini",
+    "name": "Google Gemini",
+    "icon": "✦",
+    "color": "#4285F4",
+    "description": "Google's multimodal AI assistant for chat, image generation, deep research, and more."
+  }
+]

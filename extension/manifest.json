@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "AI Auto Teaching Coach",
+  "version": "0.1.0",
+  "description": "Guided Gemini practice with step highlights and verification.",
+  "permissions": ["storage", "tabs"],
+  "host_permissions": [
+    "https://gemini.google.com/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:3000/*", "http://127.0.0.1:3000/*"],
+      "js": ["bridge.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
