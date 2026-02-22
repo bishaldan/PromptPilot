@@ -37,7 +37,7 @@ The platform is designed to be **accessible for everyone**, including elderly us
 | Frontend         | Next.js 14 (App Router), React, TypeScript |
 | Styling          | Vanilla CSS (white & orange theme)         |
 | Backend          | Next.js API Routes                         |
-| Database         | PostgreSQL + Prisma ORM                    |
+| Database         | MariaDB + Prisma ORM                       |
 | Auth             | JWT sessions via `session_token` cookie    |
 | Deployment       | Docker Compose (web + db)                  |
 | Chrome Extension | Companion extension for step verification  |

@@ -53,10 +53,25 @@ export default function ProfilePage() {
 
   return (
     <div className="main-wrap">
-      <h1>Your Profile</h1>
+      <header style={{ marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+        <div>
+          <h1>Your Profile</h1>
+          <p className="hero-subtitle" style={{ margin: 0, fontSize: "1rem" }}>
+            Member since {new Date(stats.createdAt).toLocaleDateString()}
+          </p>
+        </div>
+        {stats.role === "admin" && (
+           <div style={{ background: "var(--bg-soft)", padding: "0.5rem 1rem", borderRadius: "9999px", fontSize: "0.85rem", fontWeight: 600, color: "var(--accent)" }}>
+             ADMIN
+           </div>
+        )}
+      </header>
 
-      <div className="profile-card panel">
-        <div className="profile-avatar">
+      <div className="profile-card panel" style={{ display: "flex", alignItems: "center", gap: "2rem", marginBottom: "2rem" }}>
+        <div className="profile-avatar" style={{ 
+          width: "80px", height: "80px", borderRadius: "50%", background: "var(--accent-gradient)", color: "white", 
+          display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem", fontWeight: "bold" 
+        }}>
           {(stats.displayName || stats.email || "U")
             .split(" ")
             .map((w: string) => w[0] || "")
@@ -64,11 +79,13 @@ export default function ProfilePage() {
             .toUpperCase()
             .slice(0, 2) || "U"}
         </div>
-        <div className="profile-info">
+        
+        <div className="profile-info" style={{ flex: 1 }}>
           {editing ? (
-            <div className="profile-edit-row">
+            <div className="profile-edit-row" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
               <input
                 className="profile-name-input"
+                style={{ flex: "1", minWidth: "200px" }}
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
                 placeholder="Your display name"
@@ -81,36 +98,42 @@ export default function ProfilePage() {
               </button>
             </div>
           ) : (
-            <div className="profile-name-row">
-              <h2>{stats.displayName || "No name set"}</h2>
+            <div className="profile-name-row" style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+              <h2 style={{ margin: 0 }}>{stats.displayName || "No name set"}</h2>
               <button className="secondary small" onClick={() => setEditing(true)}>
-                Edit
+                Edit Name
               </button>
             </div>
           )}
-          <p className="muted">{stats.email}</p>
-          <p className="muted">Member since {new Date(stats.createdAt).toLocaleDateString()}</p>
-          {stats.role === "admin" && <span className="badge badge-admin">Admin</span>}
+          <p className="muted" style={{ margin: "0.5rem 0 0 0" }}>{stats.email}</p>
         </div>
       </div>
 
-      <div className="stats-grid">
-        <div className="stat-card panel">
-          <span className="stat-number">{stats.completedLessons}</span>
-          <span className="stat-label">Lessons Completed</span>
-        </div>
-        <div className="stat-card panel">
-          <span className="stat-number">{stats.badgesEarned}</span>
-          <span className="stat-label">Badges Earned</span>
-        </div>
-        <div className="stat-card panel">
-          <span className="stat-number">{completionRate}%</span>
-          <span className="stat-label">Completion Rate</span>
-        </div>
-        <div className="stat-card panel">
-          <span className="stat-number">{stats.totalStepsCompleted}</span>
-          <span className="stat-label">Steps Completed</span>
-        </div>
+      <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem" }}>Your Learning Stats</h2>
+      <div className="stats-grid card-list" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
+          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>📚</div>
+          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{stats.completedLessons}</strong>
+          <span className="muted">Lessons Completed</span>
+        </article>
+
+        <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
+          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🏆</div>
+          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{stats.badgesEarned}</strong>
+          <span className="muted">Badges Earned</span>
+        </article>
+        
+        <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
+          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🎯</div>
+          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{completionRate}%</strong>
+          <span className="muted">Completion Rate</span>
+        </article>
+
+        <article className="stat-card panel" style={{ padding: "2rem", textAlign: "center" }}>
+          <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>👣</div>
+          <strong style={{ fontSize: "1.75rem", display: "block", color: "var(--text-primary)" }}>{stats.totalStepsCompleted}</strong>
+          <span className="muted">Steps Completed</span>
+        </article>
       </div>
     </div>
   );

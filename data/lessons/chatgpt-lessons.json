@@ -1,0 +1,1146 @@
+[
+  {
+    "id": "chatgpt-chat-basics",
+    "tool": "chatgpt",
+    "title": "ChatGPT Chat Basics",
+    "difficulty": "BEGINNER",
+    "category": "Getting Started",
+    "estimatedMinutes": 5,
+    "description": "Learn how to open ChatGPT, find the chat box, send your first prompt, and read the response.",
+    "steps": [
+      {
+        "id": "ccb-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT in a new tab.",
+        "coachText": "Navigate to chatgpt.com to start using ChatGPT. You may need to log in with your account first.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": false
+      },
+      {
+        "id": "ccb-step-2",
+        "order": 2,
+        "instruction": "Click the chat input area where it says 'Ask anything'.",
+        "coachText": "This is where you type your messages to ChatGPT. Click it to start typing your first prompt.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ccb-step-3",
+        "order": 3,
+        "instruction": "Type a short prompt (e.g., 'What is artificial intelligence?').",
+        "coachText": "Type any question or instruction. ChatGPT understands natural language, so just write like you're talking to a person.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ccb-step-4",
+        "order": 4,
+        "instruction": "Press Enter or click the send button to submit your prompt.",
+        "coachText": "Click the arrow button or press Enter to send your message. ChatGPT will start generating a response right away.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-follow-up-prompts",
+    "tool": "chatgpt",
+    "title": "Better Follow-Up Prompts",
+    "difficulty": "BEGINNER",
+    "category": "Getting Started",
+    "estimatedMinutes": 5,
+    "description": "Practice asking follow-up questions to refine and improve ChatGPT's answers.",
+    "steps": [
+      {
+        "id": "cfp-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and locate the chat input area.",
+        "coachText": "Start a conversation by finding the input box at the bottom of the screen where it says 'Ask anything'.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": false
+      },
+      {
+        "id": "cfp-step-2",
+        "order": 2,
+        "instruction": "Type an initial question (e.g., 'Explain how the internet works').",
+        "coachText": "Start with a general question. We'll practice refining ChatGPT's answer with follow-up prompts.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cfp-step-3",
+        "order": 3,
+        "instruction": "Send the prompt and wait for a response.",
+        "coachText": "After ChatGPT responds, you can ask follow-up questions in the same conversation to get more detail.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cfp-step-4",
+        "order": 4,
+        "instruction": "Type a follow-up prompt to refine the answer (e.g., 'Explain that more simply, for a 10-year-old').",
+        "coachText": "Good follow-ups ask for simpler language, more examples, a different perspective, or a specific format like bullet points. ChatGPT remembers the full conversation.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-interface-tour",
+    "tool": "chatgpt",
+    "title": "ChatGPT Interface Tour",
+    "difficulty": "BEGINNER",
+    "category": "Getting Started",
+    "estimatedMinutes": 8,
+    "description": "Explore the sidebar, new chat button, model selector, search, and attachment menu to understand what ChatGPT can do.",
+    "steps": [
+      {
+        "id": "cit-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and find the 'New chat' button in the sidebar.",
+        "coachText": "The 'New chat' button starts a fresh conversation. Each conversation is saved in the sidebar for you to return to later.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-new-chat", "text=New chat"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cit-step-2",
+        "order": 2,
+        "instruction": "Find the 'Search chats' option in the sidebar.",
+        "coachText": "Use Search to find any previous conversation by keyword. This is helpful when you have many chats.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-search-chats", "text=Search chats"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cit-step-3",
+        "order": 3,
+        "instruction": "Find the 'Images' link in the sidebar.",
+        "coachText": "The Images section is a dedicated area for generating and browsing AI-created images using DALL-E. You can try different styles and see your past creations.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-images-link", "text=Images", "css=a[href='/images']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cit-step-4",
+        "order": 4,
+        "instruction": "Locate the '+' attachment button next to the chat input.",
+        "coachText": "The '+' button opens a menu with powerful tools: upload files, create images, enable Thinking mode, Deep Research, and more.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-attach-button", "css=#composer-plus-btn", "css=button[aria-label='Add files and more']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cit-step-5",
+        "order": 5,
+        "instruction": "Click the '+' button to open the tools menu.",
+        "coachText": "This menu gives you quick access to ChatGPT's advanced features like image creation, file upload, thinking mode, and deep research.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-attach-button", "css=#composer-plus-btn", "css=button[aria-label='Add files and more']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cit-step-6",
+        "order": 6,
+        "instruction": "Review the menu items: Add photos & files, Create image, Thinking, Deep research.",
+        "coachText": "These are ChatGPT's built-in tools. 'Add photos & files' uploads documents for analysis. 'Create image' generates pictures. 'Thinking' enables step-by-step reasoning. 'Deep research' does thorough multi-source research.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-plus-menu", "text=Create image", "text=Add photos"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cit-step-7",
+        "order": 7,
+        "instruction": "Find the model selector at the top of the page (it says 'ChatGPT').",
+        "coachText": "The model selector lets you switch between ChatGPT versions. 'ChatGPT' is the free model for everyday tasks. 'ChatGPT Plus' unlocks the smartest model with advanced capabilities.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-model-selector", "css=button[aria-label^='Model selector']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-image-generation",
+    "tool": "chatgpt",
+    "title": "Generate Images with ChatGPT",
+    "difficulty": "INTERMEDIATE",
+    "category": "Creative Tools",
+    "estimatedMinutes": 8,
+    "description": "Learn how to use ChatGPT's DALL-E image generation to create pictures from text descriptions.",
+    "steps": [
+      {
+        "id": "cig-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and click the '+' attachment button.",
+        "coachText": "The '+' button gives you access to image generation. Let's use it to create an AI-generated image.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-attach-button", "css=#composer-plus-btn", "css=button[aria-label='Add files and more']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cig-step-2",
+        "order": 2,
+        "instruction": "Select 'Create image' from the menu.",
+        "coachText": "This activates DALL-E, ChatGPT's built-in image generation model. Your next prompt will be used to create a picture.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-create-image", "text=Create image"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cig-step-3",
+        "order": 3,
+        "instruction": "Type an image description (e.g., 'A cozy coffee shop on a rainy day, watercolor style').",
+        "coachText": "Describe what you want to see. Include details about subject, setting, style, and mood. More specific prompts create better images.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cig-step-4",
+        "order": 4,
+        "instruction": "Send the prompt and wait for the image to be generated.",
+        "coachText": "ChatGPT will use DALL-E to create your image. This may take a few seconds. The generated image will appear in the chat.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cig-step-5",
+        "order": 5,
+        "instruction": "Find the 'Images' page in the sidebar to see all your generated images.",
+        "coachText": "The Images page at chatgpt.com/images shows all your past creations, lets you try style presets, and discover creative ideas.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-images-link", "text=Images", "css=a[href='/images']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-file-upload",
+    "tool": "chatgpt",
+    "title": "Upload & Analyze Files",
+    "difficulty": "INTERMEDIATE",
+    "category": "Productivity",
+    "estimatedMinutes": 7,
+    "description": "Learn how to upload images, PDFs, and documents for ChatGPT to analyze, summarize, and extract insights from.",
+    "steps": [
+      {
+        "id": "cfu-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and click the '+' attachment button.",
+        "coachText": "The '+' button lets you attach files for ChatGPT to read and analyze.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-attach-button", "css=#composer-plus-btn", "css=button[aria-label='Add files and more']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cfu-step-2",
+        "order": 2,
+        "instruction": "Select 'Add photos & files' from the menu.",
+        "coachText": "This option lets you upload images, PDFs, Word documents, spreadsheets, and more. ChatGPT can read and understand the content.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-add-photos-files", "text=Add photos", "text=Add photos & files"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cfu-step-3",
+        "order": 3,
+        "instruction": "Select a file from your computer (confirm manually after selecting).",
+        "coachText": "Pick any file — a photo, PDF, document, or spreadsheet. ChatGPT can analyze text, images, tables, and data.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cfu-step-4",
+        "order": 4,
+        "instruction": "Type a prompt about the file (e.g., 'Summarize this document' or 'What does this image show?').",
+        "coachText": "After attaching your file, tell ChatGPT what you want it to do — summarize, translate, analyze data, extract key points, etc.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cfu-step-5",
+        "order": 5,
+        "instruction": "Send the prompt and wait for ChatGPT's analysis.",
+        "coachText": "ChatGPT will process your file and respond with the analysis, summary, or insights you requested.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-web-search",
+    "tool": "chatgpt",
+    "title": "Search the Web with ChatGPT",
+    "difficulty": "INTERMEDIATE",
+    "category": "Research",
+    "estimatedMinutes": 6,
+    "description": "Learn how to use ChatGPT's built-in web browsing to get real-time, up-to-date information with sources.",
+    "steps": [
+      {
+        "id": "cws-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and click the chat input area.",
+        "coachText": "ChatGPT can search the web automatically when your question requires current information. Let's try it.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cws-step-2",
+        "order": 2,
+        "instruction": "Type a question that needs current information (e.g., 'What are the latest news headlines today?').",
+        "coachText": "When you ask about recent events, prices, weather, or anything time-sensitive, ChatGPT will automatically search the web and cite its sources.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cws-step-3",
+        "order": 3,
+        "instruction": "Send the prompt and watch ChatGPT search the web.",
+        "coachText": "You'll see ChatGPT indicate it's 'searching the web' before composing its answer. The response will include source links you can click to verify.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cws-step-4",
+        "order": 4,
+        "instruction": "Look for source citations in the response — they appear as numbered links.",
+        "coachText": "ChatGPT adds numbered source links [1], [2], etc. to its web-searched answers. Click any link to visit the original source and verify the information.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-thinking-mode",
+    "tool": "chatgpt",
+    "title": "Thinking Mode for Complex Problems",
+    "difficulty": "INTERMEDIATE",
+    "category": "Reasoning",
+    "estimatedMinutes": 7,
+    "description": "Learn how to activate Thinking mode so ChatGPT reasons step-by-step through complex problems.",
+    "steps": [
+      {
+        "id": "ctm-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and click the '+' attachment button.",
+        "coachText": "Thinking mode is available in the '+' menu. It enables deeper reasoning for complex questions.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-attach-button", "css=#composer-plus-btn", "css=button[aria-label='Add files and more']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ctm-step-2",
+        "order": 2,
+        "instruction": "Select 'Thinking' from the menu.",
+        "coachText": "Thinking mode makes ChatGPT reason step-by-step before answering. It's ideal for math, logic puzzles, and complex analysis.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-thinking", "text=Thinking"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ctm-step-3",
+        "order": 3,
+        "instruction": "Type a complex question (e.g., 'I have 3 boxes. Box A has apples, Box B has oranges, Box C has both. Each label is wrong. I pick one fruit from Box C and it is an apple. What is in each box?').",
+        "coachText": "Give ChatGPT a problem that requires logical reasoning. Thinking mode will show you its step-by-step thought process.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ctm-step-4",
+        "order": 4,
+        "instruction": "Send the prompt and observe the thinking process.",
+        "coachText": "Watch how Thinking mode breaks down the problem step-by-step. You'll see the reasoning chain before the final answer, showing how ChatGPT reached its conclusion.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ctm-step-5",
+        "order": 5,
+        "instruction": "Look for the expandable 'Thought for X seconds' section to see the full reasoning.",
+        "coachText": "Click on the 'Thought for X seconds' toggle to see ChatGPT's complete internal reasoning chain. This transparency helps you understand and verify the answer.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-deep-research",
+    "tool": "chatgpt",
+    "title": "Deep Research Mode",
+    "difficulty": "INTERMEDIATE",
+    "category": "Research",
+    "estimatedMinutes": 8,
+    "description": "Learn how to use Deep Research for comprehensive, multi-source research reports with citations.",
+    "steps": [
+      {
+        "id": "cdr-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and click the '+' attachment button.",
+        "coachText": "Deep Research is available in the '+' menu. It conducts thorough research across multiple web sources.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-attach-button", "css=#composer-plus-btn", "css=button[aria-label='Add files and more']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cdr-step-2",
+        "order": 2,
+        "instruction": "Select 'Deep research' from the menu.",
+        "coachText": "Deep Research tasks ChatGPT with a comprehensive investigation using multiple sources. It takes longer but produces detailed, well-cited reports.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-deep-research", "text=Deep research"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cdr-step-3",
+        "order": 3,
+        "instruction": "Type a research question (e.g., 'Compare the pros and cons of electric vehicles vs hybrid vehicles for daily commuting').",
+        "coachText": "Be specific about your research topic. The more focused your question, the more useful the research report will be.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cdr-step-4",
+        "order": 4,
+        "instruction": "Send the prompt and wait for the research plan or clarifying questions.",
+        "coachText": "ChatGPT may first present a research plan or ask clarifying questions before starting. This ensures the research matches your needs.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cdr-step-5",
+        "order": 5,
+        "instruction": "Review the sources cited in the research response.",
+        "coachText": "Deep Research provides numbered source citations throughout the report. Each source can be clicked to visit the original page and verify the information.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-response-controls",
+    "tool": "chatgpt",
+    "title": "Mastering Response Controls",
+    "difficulty": "INTERMEDIATE",
+    "category": "Productivity",
+    "estimatedMinutes": 7,
+    "description": "Learn how to copy, regenerate, read aloud, rate, and share ChatGPT's responses.",
+    "steps": [
+      {
+        "id": "crc-step-1",
+        "order": 1,
+        "instruction": "Send any prompt to ChatGPT to get a response.",
+        "coachText": "Type any question to generate a response. We'll explore the action buttons that appear below every response.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "crc-step-2",
+        "order": 2,
+        "instruction": "Wait for ChatGPT's response to appear.",
+        "coachText": "Once the response is complete, you'll see action buttons appear below it for copying, rating, and more.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "crc-step-3",
+        "order": 3,
+        "instruction": "Find the 'Copy' button below the response.",
+        "coachText": "The Copy button copies the entire response text to your clipboard. Use it to quickly paste ChatGPT's answers into documents, emails, or notes.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-copy-response", "css=button[aria-label='Copy']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "crc-step-4",
+        "order": 4,
+        "instruction": "Find the 'Read aloud' button (speaker icon).",
+        "coachText": "Read Aloud makes ChatGPT speak the response out loud using text-to-speech. It's great for listening while multitasking or for accessibility.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-read-aloud", "css=button[aria-label='Read aloud']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "crc-step-5",
+        "order": 5,
+        "instruction": "Find the thumbs up and thumbs down feedback buttons.",
+        "coachText": "Use the thumbs up (Good response) and thumbs down (Bad response) buttons to give feedback. This helps OpenAI improve ChatGPT's responses over time.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-good-response", "css=button[aria-label='Good response']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "crc-step-6",
+        "order": 6,
+        "instruction": "Find the 'Regenerate' button (circular arrow icon).",
+        "coachText": "Regenerate creates a completely new response to the same prompt. If the first answer wasn't what you wanted, try regenerating instead of asking again.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-regenerate", "css=button[aria-label='Regenerate']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-explore-gpts",
+    "tool": "chatgpt",
+    "title": "Explore Custom GPTs",
+    "difficulty": "ADVANCED",
+    "category": "Advanced Features",
+    "estimatedMinutes": 8,
+    "description": "Discover the GPT Store and learn how to find and use specialized AI assistants built by the community.",
+    "steps": [
+      {
+        "id": "ceg-step-1",
+        "order": 1,
+        "instruction": "Find and click 'Explore GPTs' in the sidebar.",
+        "coachText": "The GPT Store contains thousands of specialized ChatGPT bots built by the community. Each GPT is customized for specific tasks like writing, coding, design, and more.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-explore-gpts", "text=Explore GPTs", "css=a[href='/gpts']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ceg-step-2",
+        "order": 2,
+        "instruction": "Browse the GPT Store categories.",
+        "coachText": "The GPT Store is organized into categories like Writing, Productivity, Research & Analysis, Education, and more. Browse to discover GPTs relevant to you.",
+        "urlPattern": "https://chatgpt.com/gpts*",
+        "targetSelectors": ["css=#search", "css=input[placeholder*='Search GPTs']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ceg-step-3",
+        "order": 3,
+        "instruction": "Click the search box and type a topic (e.g., 'language learning').",
+        "coachText": "Use the search bar to find GPTs for any topic. Try searching for something you're interested in — there are GPTs for cooking, fitness, coding, resume writing, and much more.",
+        "urlPattern": "https://chatgpt.com/gpts*",
+        "targetSelectors": ["css=#search", "css=input[placeholder*='Search GPTs']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ceg-step-4",
+        "order": 4,
+        "instruction": "Browse the search results and click on a GPT that interests you.",
+        "coachText": "Each GPT card shows its name, description, and how many people have used it. Click one to learn more or start chatting with it.",
+        "urlPattern": "https://chatgpt.com/gpts*",
+        "targetSelectors": ["css=a[href*='/g/']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ceg-step-5",
+        "order": 5,
+        "instruction": "Return to the main ChatGPT page by clicking 'New chat' or the ChatGPT logo.",
+        "coachText": "You can always return to the regular ChatGPT by clicking 'New chat' in the sidebar or the ChatGPT logo. Your GPT conversations are saved separately.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-new-chat", "text=New chat"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-shopping-research",
+    "tool": "chatgpt",
+    "title": "Shopping Research",
+    "difficulty": "BEGINNER",
+    "category": "Research",
+    "estimatedMinutes": 5,
+    "description": "Use ChatGPT's Shopping Research tool to compare products, find deals, and make smarter purchasing decisions.",
+    "steps": [
+      {
+        "id": "csr-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and click the '+' attachment button.",
+        "coachText": "The '+' menu includes a Shopping Research tool that helps you compare products and find the best deals.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-attach-button", "css=#composer-plus-btn", "css=button[aria-label='Add files and more']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "csr-step-2",
+        "order": 2,
+        "instruction": "Select 'Shopping research' from the menu.",
+        "coachText": "Shopping Research mode optimizes ChatGPT to search for products, compare prices, read reviews, and recommend the best options for your needs.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-shopping-research", "text=Shopping research"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "csr-step-3",
+        "order": 3,
+        "instruction": "Type a shopping query (e.g., 'Best noise-cancelling headphones under $200').",
+        "coachText": "Be specific about what you're looking for — include budget, features, and use case. The more detail you give, the better the recommendations.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "csr-step-4",
+        "order": 4,
+        "instruction": "Send the prompt and review the product recommendations.",
+        "coachText": "ChatGPT will search the web for products, compare prices and reviews, and present organized recommendations with pros and cons.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-images-page",
+    "tool": "chatgpt",
+    "title": "The Images Page",
+    "difficulty": "BEGINNER",
+    "category": "Creative Tools",
+    "estimatedMinutes": 6,
+    "description": "Use the dedicated Images page to create art with style presets, explore creative prompts, and manage your image gallery.",
+    "steps": [
+      {
+        "id": "cip-step-1",
+        "order": 1,
+        "instruction": "Find and click 'Images' in the sidebar.",
+        "coachText": "The Images page is a dedicated space for creating and managing AI-generated images with style presets and creative inspiration.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-images-link", "text=Images", "css=a[href='/images']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cip-step-2",
+        "order": 2,
+        "instruction": "Explore the 'Try a style on an image' section with style presets.",
+        "coachText": "The Images page shows style presets like Caricature, Watercolor, Gold, and more. You can apply these styles to transform your photos or create new art.",
+        "urlPattern": "https://chatgpt.com/images*",
+        "targetSelectors": ["css=#prompt-textarea", "css=input[placeholder*='Describe']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cip-step-3",
+        "order": 3,
+        "instruction": "Browse the 'Discover something new' section for creative prompt ideas.",
+        "coachText": "This section shows trending image ideas like 'Me as an emperor', 'Style me', or 'Create a professional product photo'. Click any to try it.",
+        "urlPattern": "https://chatgpt.com/images*",
+        "targetSelectors": ["css=#prompt-textarea", "css=input[placeholder*='Describe']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cip-step-4",
+        "order": 4,
+        "instruction": "Type an image description in the input box (e.g., 'A sunset over mountains in oil painting style').",
+        "coachText": "The Images page has its own dedicated input for creating images. Describe what you want to see — include subject, style, colors, and mood.",
+        "urlPattern": "https://chatgpt.com/images*",
+        "targetSelectors": ["css=#prompt-textarea", "css=input[placeholder*='Describe']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cip-step-5",
+        "order": 5,
+        "instruction": "Scroll down to see the 'My images' gallery with your past creations.",
+        "coachText": "The 'My images' section shows all your previously generated images. Click any to view full-size, download, or create variations.",
+        "urlPattern": "https://chatgpt.com/images*",
+        "targetSelectors": ["css=#prompt-textarea", "css=input[placeholder*='Describe']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-projects",
+    "tool": "chatgpt",
+    "title": "Organize with Projects",
+    "difficulty": "INTERMEDIATE",
+    "category": "Productivity",
+    "estimatedMinutes": 7,
+    "description": "Create a ChatGPT Project to organize related chats, files, and custom instructions into focused workspaces.",
+    "steps": [
+      {
+        "id": "cpj-step-1",
+        "order": 1,
+        "instruction": "Find the 'Projects' section in the sidebar.",
+        "coachText": "Projects are workspaces that group related chats, files, and custom instructions together. They keep your work organized by topic or task.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-projects", "text=New project", "text=Projects"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cpj-step-2",
+        "order": 2,
+        "instruction": "Click 'New project' to create a workspace.",
+        "coachText": "Each project gets its own name, custom instructions, and file storage. Create projects for different workflows like 'Marketing Campaign' or 'Learning Python'.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-new-project", "text=New project"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cpj-step-3",
+        "order": 3,
+        "instruction": "Give your project a name and description.",
+        "coachText": "Name your project something descriptive. You can add custom instructions that apply only to chats within this project.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']", "css=input"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cpj-step-4",
+        "order": 4,
+        "instruction": "Start a chat inside the project by typing a message.",
+        "coachText": "Chats created inside a project stay organized together. The project's custom instructions automatically apply to every chat within it.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cpj-step-5",
+        "order": 5,
+        "instruction": "Return to the sidebar and find your project listed under 'Projects'.",
+        "coachText": "Your project now appears in the sidebar. Click it anytime to see all related chats and files.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-projects", "text=Projects"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-apps-connectors",
+    "tool": "chatgpt",
+    "title": "Connect Third-Party Apps",
+    "difficulty": "INTERMEDIATE",
+    "category": "Advanced Features",
+    "estimatedMinutes": 6,
+    "description": "Connect ChatGPT to external apps like Canva, Photoshop, and Replit to extend its capabilities.",
+    "steps": [
+      {
+        "id": "cac-step-1",
+        "order": 1,
+        "instruction": "Find and click 'Apps' in the sidebar.",
+        "coachText": "ChatGPT can connect to third-party apps, letting you use tools like Canva, Adobe Photoshop, and Replit directly in conversations.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-apps", "text=Apps", "css=a[href='/apps']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cac-step-2",
+        "order": 2,
+        "instruction": "Browse the available app integrations.",
+        "coachText": "The Apps page shows all available integrations. Each app adds new capabilities — design graphics with Canva, edit photos with Photoshop, or build apps with Replit.",
+        "urlPattern": "https://chatgpt.com/apps*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cac-step-3",
+        "order": 3,
+        "instruction": "Click on an app to learn what it does (e.g., Canva).",
+        "coachText": "Each app card shows what it can do. Canva creates social media posts and presentations. Replit builds and runs code. Click to see details.",
+        "urlPattern": "https://chatgpt.com/apps*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cac-step-4",
+        "order": 4,
+        "instruction": "Return to a chat and try mentioning an app (e.g., 'Create a social media post about AI using Canva').",
+        "coachText": "When you mention a connected app in your prompt, ChatGPT will use it to perform the task — design graphics, edit images, write code, all within the conversation.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-voice-mode",
+    "tool": "chatgpt",
+    "title": "Voice Conversations",
+    "difficulty": "BEGINNER",
+    "category": "Getting Started",
+    "estimatedMinutes": 5,
+    "description": "Use voice dictation and Advanced Voice mode for hands-free AI conversations.",
+    "steps": [
+      {
+        "id": "cvm-step-1",
+        "order": 1,
+        "instruction": "Open ChatGPT and find the microphone icon in the input area.",
+        "coachText": "The microphone button lets you dictate messages using speech-to-text. Great for longer messages or when you prefer talking over typing.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-voice-button", "css=button[aria-label*='Voice']", "css=button[aria-label*='Dictate']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cvm-step-2",
+        "order": 2,
+        "instruction": "Find the Advanced Voice mode button (the waveform icon).",
+        "coachText": "Advanced Voice mode enables real-time, natural voice conversations with ChatGPT. It can hear you, respond verbally, and understand tone.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-advanced-voice", "css=button[aria-label*='Start voice']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cvm-step-3",
+        "order": 3,
+        "instruction": "Click the microphone button to start dictating a message.",
+        "coachText": "Speak clearly and naturally — ChatGPT will transcribe your speech into text in the input box. You can review and edit before sending.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-voice-button", "css=button[aria-label*='Voice']", "css=button[aria-label*='Dictate']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cvm-step-4",
+        "order": 4,
+        "instruction": "Say something (e.g., 'Tell me about the solar system') and send the transcribed message.",
+        "coachText": "After dictating, your words appear as text. Review, edit if needed, and send. Voice input is perfect for brainstorming and accessibility.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-response", "css=[data-message-author-role='assistant']", "css=div.agent-turn"],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-memory-personalization",
+    "tool": "chatgpt",
+    "title": "Set Up Memory & Personalization",
+    "difficulty": "BEGINNER",
+    "category": "Personalization",
+    "estimatedMinutes": 6,
+    "description": "Configure ChatGPT's memory, tone, and custom instructions so it works the way you prefer.",
+    "steps": [
+      {
+        "id": "cmp-step-1",
+        "order": 1,
+        "instruction": "Click your profile icon in the bottom-left corner of the sidebar.",
+        "coachText": "Your profile menu gives access to personalization settings, memory management, and custom instructions.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-profile", "css=button[data-testid='profile-button']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cmp-step-2",
+        "order": 2,
+        "instruction": "Click 'Personalization' from the menu.",
+        "coachText": "Personalization settings let you set your preferred tone, style, and format for all ChatGPT responses.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-personalization", "text=Personalization"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cmp-step-3",
+        "order": 3,
+        "instruction": "Explore the tone and style options (e.g., Warm, Professional, Enthusiastic).",
+        "coachText": "Set a 'Base style' like Chatty, Formal, or Concise, and a 'Tone' like Encouraging or Direct. These apply to all future conversations.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cmp-step-4",
+        "order": 4,
+        "instruction": "Find the 'Memory' section to see what ChatGPT remembers about you.",
+        "coachText": "ChatGPT's Memory stores facts it learns across conversations — your job, preferences, writing style. You can view, edit, or delete memories.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-memory", "text=Memory"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cmp-step-5",
+        "order": 5,
+        "instruction": "Close settings and test personalization by asking ChatGPT something.",
+        "coachText": "Your personalization settings take effect immediately. Try asking ChatGPT a question and notice the tone and style match your preferences.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-group-chats",
+    "tool": "chatgpt",
+    "title": "Collaborate in Group Chats",
+    "difficulty": "INTERMEDIATE",
+    "category": "Collaboration",
+    "estimatedMinutes": 6,
+    "description": "Create a group chat where multiple people and ChatGPT can collaborate together in real time.",
+    "steps": [
+      {
+        "id": "cgc-step-1",
+        "order": 1,
+        "instruction": "Find the 'Group chats' section at the bottom of the sidebar.",
+        "coachText": "Group Chats let you invite others into a shared conversation with ChatGPT. Everyone can contribute, and ChatGPT participates as a team member.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-group-chats", "text=Group chats", "text=New group chat"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cgc-step-2",
+        "order": 2,
+        "instruction": "Click 'New group chat' to start a collaborative session.",
+        "coachText": "A group chat creates a shared space where you and others brainstorm, plan projects, or learn together with ChatGPT's assistance.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-new-group-chat", "text=New group chat"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cgc-step-3",
+        "order": 3,
+        "instruction": "Explore the group chat setup options.",
+        "coachText": "You can name your group chat, invite participants via email or link, and optionally add a custom GPT to specialize the chat.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "cgc-step-4",
+        "order": 4,
+        "instruction": "Type a message in the group chat to send to all participants.",
+        "coachText": "Messages in group chats are visible to everyone. ChatGPT responds to anyone in the group — perfect for team brainstorming or study groups.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      }
+    ]
+  },
+  {
+    "id": "chatgpt-codex",
+    "tool": "chatgpt",
+    "title": "Explore Codex",
+    "difficulty": "ADVANCED",
+    "category": "Advanced Features",
+    "estimatedMinutes": 7,
+    "description": "Discover ChatGPT's Codex — a code-centric environment with automations, skills, and specialized coding threads.",
+    "steps": [
+      {
+        "id": "ccx-step-1",
+        "order": 1,
+        "instruction": "Find and click 'Codex' in the sidebar.",
+        "coachText": "Codex is ChatGPT's specialized coding environment with a focused interface for writing, debugging, and running code with AI assistance.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-codex", "text=Codex", "css=a[href='/codex']"],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ccx-step-2",
+        "order": 2,
+        "instruction": "Browse the Codex interface — explore Automations, Skills, and Threads.",
+        "coachText": "Codex offers three areas: Automations (recurring tasks), Skills (reusable code patterns), and Threads (focused coding conversations). It's like an AI-powered IDE.",
+        "urlPattern": "https://chatgpt.com/codex*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ccx-step-3",
+        "order": 3,
+        "instruction": "Look for the desktop app download option.",
+        "coachText": "Codex is also available as a macOS desktop app, providing a native IDE-like experience integrated with your local development environment.",
+        "urlPattern": "https://chatgpt.com/codex*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ccx-step-4",
+        "order": 4,
+        "instruction": "Start a coding thread by typing a programming question.",
+        "coachText": "Codex excels at writing functions, debugging errors, explaining code, and building full applications. Try a coding question.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["css=#prompt-textarea", "css=div[id='prompt-textarea']"],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ccx-step-5",
+        "order": 5,
+        "instruction": "Return to regular ChatGPT by clicking 'New chat' in the sidebar.",
+        "coachText": "Switch between Codex and regular ChatGPT anytime. Codex conversations are saved separately so your coding work stays organized.",
+        "urlPattern": "https://chatgpt.com/*",
+        "targetSelectors": ["special=chatgpt-new-chat", "text=New chat"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      }
+    ]
+  }
+]

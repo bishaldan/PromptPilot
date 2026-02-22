@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
   "name": "AI Auto Teaching Coach",
-  "version": "0.1.0",
-  "description": "Guided Gemini practice with step highlights and verification.",
+  "version": "0.2.0",
+  "description": "Guided AI practice with step highlights and verification — supports Google Gemini and ChatGPT.",
   "permissions": ["storage", "tabs"],
   "host_permissions": [
     "https://gemini.google.com/*",
+    "https://chatgpt.com/*",
     "http://localhost:3000/*",
     "http://127.0.0.1:3000/*"
   ],
@@ -19,7 +20,7 @@
       "run_at": "document_start"
     },
     {
-      "matches": ["https://gemini.google.com/*"],
+      "matches": ["https://gemini.google.com/*", "https://chatgpt.com/*"],
       "js": ["content.js"],
       "run_at": "document_idle"
     }

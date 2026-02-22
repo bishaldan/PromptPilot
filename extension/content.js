@@ -48,21 +48,22 @@ function ensureCalloutElements() {
     calloutBox = document.createElement("div");
     calloutBox.setAttribute(COACH_UI_ATTR, "true");
     calloutBox.style.position = "fixed";
-    calloutBox.style.width = "320px";
-    calloutBox.style.maxWidth = "360px";
-    calloutBox.style.background = "rgba(15, 23, 42, 0.85)";
-    calloutBox.style.backdropFilter = "blur(12px)";
-    calloutBox.style.border = "1px solid rgba(139, 92, 246, 0.5)";
-    calloutBox.style.borderRadius = "14px";
-    calloutBox.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset";
-    calloutBox.style.padding = "14px 16px";
+    calloutBox.style.width = "340px";
+    calloutBox.style.maxWidth = "380px";
+    calloutBox.style.background = "linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.92))";
+    calloutBox.style.backdropFilter = "blur(16px)";
+    calloutBox.style.border = "1px solid rgba(139, 92, 246, 0.3)";
+    calloutBox.style.borderRadius = "16px";
+    calloutBox.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 1px 0 rgba(255, 255, 255, 0.08) inset";
+    calloutBox.style.padding = "0";
+    calloutBox.style.overflow = "hidden";
     calloutBox.style.zIndex = "2147483647";
     calloutBox.style.color = "#f8fafc";
     calloutBox.style.fontFamily = "system-ui, -apple-system, Segoe UI, Roboto, sans-serif";
     calloutBox.style.pointerEvents = "none";
     calloutBox.style.transition = "all 0.3s ease";
     calloutBox.style.animation = "fadeInCoach 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
-    
+
     // Add custom animation to document if it doesn't exist
     if (!document.getElementById('coach-animations')) {
       const style = document.createElement('style');
@@ -81,6 +82,18 @@ function ensureCalloutElements() {
       document.head.appendChild(style);
     }
 
+    // Gradient accent bar at top
+    const accentBar = document.createElement("div");
+    accentBar.style.height = "3px";
+    accentBar.style.background = "linear-gradient(90deg, #8b5cf6, #3b82f6, #06b6d4)";
+    accentBar.style.width = "100%";
+    calloutBox.appendChild(accentBar);
+
+    // Inner content wrapper
+    const innerWrap = document.createElement("div");
+    innerWrap.style.padding = "14px 16px 12px";
+    calloutBox.appendChild(innerWrap);
+
     calloutArrow = document.createElement("div");
     calloutArrow.style.position = "absolute";
     calloutArrow.style.width = "0";
@@ -88,25 +101,29 @@ function ensureCalloutElements() {
     calloutBox.appendChild(calloutArrow);
 
     calloutTitle = document.createElement("div");
-    calloutTitle.style.fontSize = "14px";
+    calloutTitle.style.fontSize = "13.5px";
     calloutTitle.style.fontWeight = "700";
     calloutTitle.style.marginBottom = "8px";
     calloutTitle.style.color = "#ffffff";
-    calloutBox.appendChild(calloutTitle);
+    calloutTitle.style.lineHeight = "1.4";
+    innerWrap.appendChild(calloutTitle);
 
     calloutBody = document.createElement("div");
-    calloutBody.style.fontSize = "13px";
-    calloutBody.style.lineHeight = "1.5";
-    calloutBody.style.marginBottom = "8px";
+    calloutBody.style.fontSize = "12.5px";
+    calloutBody.style.lineHeight = "1.6";
+    calloutBody.style.marginBottom = "10px";
     calloutBody.style.color = "#cbd5e1";
-    calloutBox.appendChild(calloutBody);
+    innerWrap.appendChild(calloutBody);
 
     calloutMeta = document.createElement("div");
     calloutMeta.style.fontSize = "11px";
-    calloutMeta.style.color = "#94a3b8";
-    calloutMeta.style.textTransform = "uppercase";
-    calloutMeta.style.letterSpacing = "0.05em";
-    calloutBox.appendChild(calloutMeta);
+    calloutMeta.style.color = "#a78bfa";
+    calloutMeta.style.fontWeight = "600";
+    calloutMeta.style.letterSpacing = "0.03em";
+    calloutMeta.style.display = "flex";
+    calloutMeta.style.alignItems = "center";
+    calloutMeta.style.gap = "6px";
+    innerWrap.appendChild(calloutMeta);
 
     document.documentElement.appendChild(calloutBox);
   }
@@ -135,17 +152,20 @@ function describeStep(step, selector) {
   }
 
   const normalized = (selector || "").toLowerCase();
+  const isChatGPT = window.location.hostname.includes("chatgpt.com");
+  const toolName = isChatGPT ? "ChatGPT" : "Gemini";
 
   if (
     normalized.includes("textarea") ||
     normalized.includes("contenteditable") ||
-    normalized.includes("textbox")
+    normalized.includes("textbox") ||
+    normalized.includes("prompt-textarea")
   ) {
-    return "This is the prompt input area. Click here and type your instruction for Gemini.";
+    return `This is the prompt input area. Click here and type your instruction for ${toolName}.`;
   }
 
   if (step.completionRule === "response_detected") {
-    return "This section displays Gemini responses. Wait until a new response appears.";
+    return `This section displays ${toolName} responses. Wait until a new response appears.`;
   }
 
   if (step.completionRule === "clicked_target") {
@@ -471,6 +491,85 @@ function findGeminiAddFileMenuItem() {
   return findPopupMatchByTextCandidates(candidates, addFileButton);
 }
 
+// ── ChatGPT-specific helpers ────────────────────────────────
+
+function findChatGPTPromptInput() {
+  const el = document.querySelector("#prompt-textarea");
+  if (el && isElementVisible(el)) return el;
+  const fallback = document.querySelector("div[id='prompt-textarea']");
+  if (fallback && isElementVisible(fallback)) return fallback;
+  return null;
+}
+
+function findChatGPTSendButton() {
+  const selectors = [
+    "button[data-testid='send-button']",
+    "button[aria-label='Send prompt']",
+    "button.composer-submit-button-color"
+  ];
+  for (const sel of selectors) {
+    const el = document.querySelector(sel);
+    if (el && isElementVisible(el)) return el;
+  }
+  return null;
+}
+
+function findChatGPTAttachButton() {
+  const selectors = [
+    "#composer-plus-btn",
+    "button[aria-label='Add files and more']",
+    "button[aria-label*='Attach']"
+  ];
+  for (const sel of selectors) {
+    const el = document.querySelector(sel);
+    if (el && isElementVisible(el)) return el;
+  }
+  return null;
+}
+
+function findChatGPTModelSelector() {
+  const el = document.querySelector("button[aria-label^='Model selector']");
+  if (el && isElementVisible(el)) return el;
+  const alt = document.querySelector("button[aria-label*='model']");
+  if (alt && isElementVisible(alt)) return alt;
+  return null;
+}
+
+function findChatGPTPlusMenuItem(name) {
+  const attachBtn = findChatGPTAttachButton();
+  return findPopupMatchByTextCandidates([name], attachBtn);
+}
+
+function findChatGPTPlusMenu() {
+  const candidates = ["Add photos", "Create image", "Thinking", "Deep research"];
+  const attachBtn = findChatGPTAttachButton();
+  return findPopupMatchByTextCandidates(candidates, attachBtn);
+}
+
+function findChatGPTResponse() {
+  const selectors = [
+    "[data-message-author-role='assistant']",
+    "div.agent-turn",
+    "div[data-testid*='conversation-turn']"
+  ];
+  for (const sel of selectors) {
+    const els = document.querySelectorAll(sel);
+    if (els.length > 0) {
+      const last = els[els.length - 1];
+      if (isElementVisible(last)) return last;
+    }
+  }
+  return null;
+}
+
+function findChatGPTResponseButton(ariaLabel) {
+  const buttons = document.querySelectorAll(`button[aria-label='${ariaLabel}']`);
+  for (const btn of buttons) {
+    if (isElementVisible(btn)) return btn;
+  }
+  return null;
+}
+
 function shouldInferClickFromVisibleState(step) {
   if (!step || step.completionRule !== "clicked_target") return false;
   // Require explicit user clicks for clicked_target steps to prevent false fast-forward.
@@ -624,6 +723,69 @@ function resolveSelector(selector) {
       return null;
     }
 
+    // ── ChatGPT special selectors ──
+    if (selector === "special=chatgpt-prompt-input") {
+      return findChatGPTPromptInput();
+    }
+    if (selector === "special=chatgpt-send-button") {
+      return findChatGPTSendButton();
+    }
+    if (selector === "special=chatgpt-attach-button") {
+      return findChatGPTAttachButton();
+    }
+    if (selector === "special=chatgpt-model-selector") {
+      return findChatGPTModelSelector();
+    }
+    if (selector === "special=chatgpt-plus-menu") {
+      return findChatGPTPlusMenu();
+    }
+    if (selector === "special=chatgpt-create-image") {
+      return findChatGPTPlusMenuItem("Create image");
+    }
+    if (selector === "special=chatgpt-thinking") {
+      return findChatGPTPlusMenuItem("Thinking");
+    }
+    if (selector === "special=chatgpt-deep-research") {
+      return findChatGPTPlusMenuItem("Deep research");
+    }
+    if (selector === "special=chatgpt-add-photos-files") {
+      return findChatGPTPlusMenuItem("Add photos");
+    }
+    if (selector === "special=chatgpt-response") {
+      return findChatGPTResponse();
+    }
+    if (selector === "special=chatgpt-copy-response") {
+      return findChatGPTResponseButton("Copy");
+    }
+    if (selector === "special=chatgpt-read-aloud") {
+      return findChatGPTResponseButton("Read aloud");
+    }
+    if (selector === "special=chatgpt-good-response") {
+      return findChatGPTResponseButton("Good response");
+    }
+    if (selector === "special=chatgpt-bad-response") {
+      return findChatGPTResponseButton("Bad response");
+    }
+    if (selector === "special=chatgpt-regenerate") {
+      return findChatGPTResponseButton("Regenerate");
+    }
+    if (selector === "special=chatgpt-new-chat") {
+      return findElementByText("New chat");
+    }
+    if (selector === "special=chatgpt-search-chats") {
+      return findElementByText("Search chats");
+    }
+    if (selector === "special=chatgpt-images-link") {
+      const link = document.querySelector("a[href='/images']");
+      if (link && isElementVisible(link)) return link;
+      return findElementByText("Images");
+    }
+    if (selector === "special=chatgpt-explore-gpts") {
+      const link = document.querySelector("a[href='/gpts']");
+      if (link && isElementVisible(link)) return link;
+      return findElementByText("Explore GPTs");
+    }
+
     if (selector.startsWith("text=")) {
       return findElementByText(selector.slice(5));
     }
@@ -703,13 +865,23 @@ function positionCallout(targetElement) {
   connectorLine.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
 }
 
+function getActionHint(step) {
+  const action = (step.actionType || "").toLowerCase();
+  const rule = (step.completionRule || "").toLowerCase();
+  if (action === "click" || rule === "clicked_target") return "👆 Click the highlighted area";
+  if (action === "input" || rule === "input_detected") return "⌨️ Type in the highlighted area";
+  if (action === "wait_for_response" || rule === "response_detected") return "⏳ Waiting for AI response...";
+  if (action === "navigate" || rule === "element_visible") return "👀 Checking the page is ready";
+  return "📍 Follow the highlight";
+}
+
 function showCallout(step, selector, targetElement) {
   ensureCalloutElements();
   if (!calloutTitle || !calloutBody || !calloutMeta) return;
 
   calloutTitle.textContent = `Step ${step.order}: ${step.instruction}`;
   calloutBody.textContent = describeStep(step, selector);
-  calloutMeta.textContent = `Target: ${selector}`;
+  calloutMeta.textContent = getActionHint(step);
   lastCalloutSelector = selector;
   positionCallout(targetElement);
 }

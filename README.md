@@ -6,7 +6,7 @@
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org/)
+[![MariaDB](https://img.shields.io/badge/MariaDB-11.4-003545?logo=mariadb)](https://mariadb.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -91,7 +91,7 @@ open http://localhost:3000
 | **Frontend**       | Next.js 14 (App Router), React 18, TypeScript                     |
 | **Styling**        | Vanilla CSS — white & orange theme, mobile responsive             |
 | **Backend**        | Next.js API Routes                                                |
-| **Database**       | PostgreSQL 16 + Prisma ORM                                        |
+| **Database**       | MariaDB 11.4 + Prisma ORM                                         |
 | **Authentication** | JWT sessions via `session_token` cookie                           |
 | **Deployment**     | Docker Compose (web + database)                                   |
 | **Extension**      | Chrome companion extension for step verification                  |
@@ -204,7 +204,7 @@ Platform overview with user management and lesson analytics.
 # Install dependencies
 npm install
 
-# Set up database (requires PostgreSQL)
+# Set up database (requires MariaDB/MySQL)
 npx prisma generate
 npx prisma db push
 npx prisma db seed
@@ -215,11 +215,11 @@ npm run dev
 
 ### Environment Variables
 
-| Variable              | Description                  | Default                 |
-| :-------------------- | :--------------------------- | :---------------------- |
-| `DATABASE_URL`        | PostgreSQL connection string | Set in docker-compose   |
-| `AUTH_SECRET`         | JWT signing secret           | Set in .env             |
-| `NEXT_PUBLIC_APP_URL` | Application URL              | `http://localhost:3000` |
+| Variable              | Description               | Default                 |
+| :-------------------- | :------------------------ | :---------------------- |
+| `DATABASE_URL`        | MariaDB connection string | Set in docker-compose   |
+| `AUTH_SECRET`         | JWT signing secret        | Set in .env             |
+| `NEXT_PUBLIC_APP_URL` | Application URL           | `http://localhost:3000` |
 
 ---
 

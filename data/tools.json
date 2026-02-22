@@ -6,5 +6,13 @@
     "icon": "✦",
     "color": "#4285F4",
     "description": "Google's multimodal AI assistant for chat, image generation, deep research, and more."
+  },
+  {
+    "id": "chatgpt",
+    "slug": "chatgpt",
+    "name": "ChatGPT",
+    "icon": "🤖",
+    "color": "#10a37f",
+    "description": "OpenAI's conversational AI for chat, image generation, code, web browsing, file analysis, and custom GPTs."
   }
 ]

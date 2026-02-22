@@ -42,7 +42,7 @@ async function connectLessonRun(lessonRunToken, sender) {
     }
   });
 
-  await pushStateToGeminiTabs(payload.state);
+  await pushStateToToolTabs(payload.state);
   return payload;
 }
 
@@ -68,8 +68,8 @@ async function apiRequest(path, options = {}) {
   return payload;
 }
 
-async function pushStateToGeminiTabs(state) {
-  const tabs = await chrome.tabs.query({ url: ["https://gemini.google.com/*"] });
+async function pushStateToToolTabs(state) {
+  const tabs = await chrome.tabs.query({ url: ["https://gemini.google.com/*", "https://chatgpt.com/*"] });
   for (const tab of tabs) {
     if (!tab.id) continue;
     chrome.tabs.sendMessage(tab.id, {
@@ -143,7 +143,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           })
         });
 
-        await pushStateToGeminiTabs(payload.state);
+        await pushStateToToolTabs(payload.state);
         sendResponse({ ok: true, advanced: payload.advanced });
       } catch (error) {
         sendResponse({ ok: false, error: error instanceof Error ? error.message : "Unknown error" });

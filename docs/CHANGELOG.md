@@ -109,4 +109,4 @@ Format: `## [version] — YYYY-MM-DD`
 - Login/register authentication with JWT
 - Simple lesson list dashboard
 - Step verification via extension telemetry
-- Docker Compose setup (Next.js + PostgreSQL)
+- Docker Compose setup (Next.js + MariaDB)

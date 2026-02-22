@@ -104,21 +104,36 @@ async function sendExtensionMessage(payload: {
   });
 }
 
+const TOOL_CONFIG: Record<string, { name: string; url: string; icon: string; color: string }> = {
+  gemini: { name: "Google Gemini", url: "https://gemini.google.com", icon: "✦", color: "#4285F4" },
+  chatgpt: { name: "ChatGPT", url: "https://chatgpt.com", icon: "⬡", color: "#10a37f" },
+};
+
+function getToolSlug(lessonId: string): string {
+  const prefix = lessonId.split("-")[0];
+  return TOOL_CONFIG[prefix] ? prefix : "gemini";
+}
+
 export default function LessonRunnerPage({ params }: { params: { lessonId: string } }) {
   const lessonId = params.lessonId;
+  const toolSlug = getToolSlug(lessonId);
+  const toolInfo = TOOL_CONFIG[toolSlug] ?? TOOL_CONFIG.gemini;
   const [lesson, setLesson] = useState<LessonData | null>(null);
   const [runId, setRunId] = useState<string | null>(null);
   const [runToken, setRunToken] = useState<string | null>(null);
   const [runState, setRunState] = useState<RunState | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string>("Install extension, then click Start lesson.");
+  const [info, setInfo] = useState<{ text: string; type: "default" | "active" | "success" | "error" }>({
+    text: "Install the extension, then click Start Lesson to begin.",
+    type: "default"
+  });
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     let active = true;
 
     async function loadLesson() {
-      const response = await apiFetch("/api/tools/gemini/lessons");
+      const response = await apiFetch(`/api/tools/${toolSlug}/lessons`);
       const payload = (await response.json().catch(() => ({}))) as {
         lessons?: LessonData[];
         error?: string;
@@ -145,7 +160,7 @@ export default function LessonRunnerPage({ params }: { params: { lessonId: strin
     return () => {
       active = false;
     };
-  }, [lessonId]);
+  }, [lessonId, toolSlug]);
 
   useEffect(() => {
     if (!runToken) {
@@ -196,8 +211,20 @@ export default function LessonRunnerPage({ params }: { params: { lessonId: strin
     return [...(runState?.steps ?? [])].sort((a, b) => a.order - b.order);
   }, [runState]);
 
+  // Compute progress
+  const completedCount = orderedSteps.filter((s) => s.status === "COMPLETED").length;
+  const totalCount = orderedSteps.length || lesson?.steps?.length || 0;
+  const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const isCompleted = runState?.status === "COMPLETED";
+  const isRunning = runState?.status === "IN_PROGRESS";
+
+  // Steps to show before start (from lesson data)
+  const previewSteps = lesson?.steps
+    ? [...lesson.steps].sort((a, b) => a.order - b.order)
+    : [];
+
   async function startLesson() {
-    const geminiWindow = window.open("", "_blank");
+    const toolWindow = window.open("", "_blank");
     setBusy(true);
     setError(null);
 
@@ -216,8 +243,8 @@ export default function LessonRunnerPage({ params }: { params: { lessonId: strin
 
     if (!response.ok || !payload.runId || !payload.lessonRunToken) {
       setError(payload.error ?? "Failed to start lesson");
-      if (geminiWindow && !geminiWindow.closed) {
-        geminiWindow.close();
+      if (toolWindow && !toolWindow.closed) {
+        toolWindow.close();
       }
       setBusy(false);
       return;
@@ -227,8 +254,8 @@ export default function LessonRunnerPage({ params }: { params: { lessonId: strin
     setRunToken(payload.lessonRunToken);
     setRunState(payload.state ?? null);
 
-    if (geminiWindow && !geminiWindow.closed) {
-      geminiWindow.location.href = "https://gemini.google.com";
+    if (toolWindow && !toolWindow.closed) {
+      toolWindow.location.href = toolInfo.url;
     }
 
     const connectResponse = await sendExtensionMessage({
@@ -237,12 +264,15 @@ export default function LessonRunnerPage({ params }: { params: { lessonId: strin
     });
 
     if (!connectResponse.ok) {
-      setInfo(
-        `Run started, but extension did not connect: ${connectResponse.error ?? "unknown error"} ` +
-          "Reload extension, refresh this page, then press Start lesson again."
-      );
+      setInfo({
+        text: `Extension not connected: ${connectResponse.error ?? "unknown error"}. Reload extension and refresh.`,
+        type: "error"
+      });
     } else {
-      setInfo("Extension connected. Open Gemini and follow the highlighted target.");
+      setInfo({
+        text: `Extension connected! Go to ${toolInfo.name} and follow the guided steps.`,
+        type: "success"
+      });
     }
 
     setBusy(false);
@@ -269,54 +299,184 @@ export default function LessonRunnerPage({ params }: { params: { lessonId: strin
     setError(null);
   }
 
+  // Info bar icon
+  const infoIcon = info.type === "success" ? "✅" : info.type === "error" ? "⚠️" : info.type === "active" ? "🔄" : "🔌";
+
   return (
     <main className="main-wrap">
-      <Link href="/dashboard" className="muted">
-        Back to dashboard
+      <Link href="/dashboard" className="back-to-course-btn">
+        <span className="back-arrow">←</span> Back to course
       </Link>
 
-      <h1>{lesson?.title ?? "Lesson"}</h1>
-      <p className="muted">{lesson?.description}</p>
+      {/* ── Header with tool icon ── */}
+      <div className="lesson-runner-header">
+        <div
+          className="lesson-tool-icon"
+          style={{ background: `${toolInfo.color}15`, color: toolInfo.color }}
+        >
+          {toolInfo.icon}
+        </div>
+        <h1>{lesson?.title ?? "Loading..."}</h1>
+      </div>
+      <p className="muted" style={{ marginBottom: "1.5rem" }}>{lesson?.description}</p>
 
-      <div className="panel" style={{ display: "grid", gap: "0.7rem", marginBottom: "1rem" }}>
-        <p>{info}</p>
-        <div style={{ display: "flex", gap: "0.7rem", flexWrap: "wrap" }}>
-          <button className="primary" onClick={startLesson} disabled={busy || !lesson}>
-            {busy ? "Starting..." : "Start lesson"}
-          </button>
-          <a href="https://gemini.google.com" target="_blank" rel="noreferrer">
-            <button>Open Gemini</button>
+      {/* ── Completed celebration ── */}
+      {isCompleted ? (
+        <div className="completion-panel" style={{ marginBottom: "1.5rem" }}>
+          <span className="completion-emoji">🎉</span>
+          <h2>Lesson Complete!</h2>
+          <p>
+            Great job! You&apos;ve completed all {totalCount} steps. Your badge has been awarded.
+          </p>
+          <Link href="/dashboard">
+            <button className="primary">Back to Dashboard</button>
+          </Link>
+        </div>
+      ) : null}
+
+      {/* ── Control Panel ── */}
+      <div className="panel" style={{ display: "grid", gap: "1rem", marginBottom: "1.5rem" }}>
+        {/* Info bar */}
+        <div className={`info-bar info-${info.type}`}>
+          <span className="info-icon">{infoIcon}</span>
+          <span>{info.text}</span>
+        </div>
+
+        {/* Action buttons */}
+        <div className="lesson-actions">
+          {!isCompleted ? (
+            <button className="primary" onClick={startLesson} disabled={busy || !lesson}>
+              {busy ? "⏳ Starting..." : isRunning ? "🔄 Restart Lesson" : "▶ Start Lesson"}
+            </button>
+          ) : null}
+          <a href={toolInfo.url} target="_blank" rel="noreferrer">
+            <button>
+              Open {toolInfo.name} ↗
+            </button>
           </a>
           {runState?.currentStep?.allowManualConfirm ? (
-            <button onClick={manualConfirm}>Manual confirm current step</button>
+            <button onClick={manualConfirm} className="small">
+              ✓ Mark Step Complete
+            </button>
           ) : null}
         </div>
-        {runId ? <p className="muted">Run ID: {runId}</p> : null}
-        {error ? <p className="status-warn">{error}</p> : null}
+
+        {/* Error message */}
+        {error ? <div className="info-bar info-error"><span className="info-icon">⚠️</span><span>{error}</span></div> : null}
       </div>
 
-      <section className="panel" style={{ display: "grid", gap: "0.65rem" }}>
-        <h3 style={{ margin: 0 }}>Run status: {runState?.status ?? "Not started"}</h3>
-        {runState?.currentStep ? (
-          <p>
-            <strong>Current step:</strong> {runState.currentStep.order}. {runState.currentStep.instruction}
-          </p>
-        ) : runState?.status === "COMPLETED" ? (
-          <p className="status-ok">Lesson completed. Badge awarded.</p>
-        ) : (
-          <p className="muted">No active step yet.</p>
-        )}
-
-        <div className="card-list">
-          {orderedSteps.map((step) => (
-            <article className="step-item" key={step.stepId}>
-              <strong>
-                {step.order}. {step.instruction}
-              </strong>
-              <div className="muted">Status: {step.status}</div>
-            </article>
-          ))}
+      {/* ── Progress bar (when running) ── */}
+      {(isRunning || isCompleted) && totalCount > 0 ? (
+        <div className="panel" style={{ marginBottom: "1.5rem", padding: "1.25rem 1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+            <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>
+              Progress
+            </span>
+            <span className="progress-text">
+              {completedCount}/{totalCount} steps
+            </span>
+          </div>
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progressPercent}%` }} />
+          </div>
         </div>
+      ) : null}
+
+      {/* ── Current step highlight (when running) ── */}
+      {isRunning && runState?.currentStep ? (
+        <div className="current-step-card" style={{ marginBottom: "1.5rem" }}>
+          <span className="current-step-label">Now</span>
+          <span className="current-step-text">
+            Step {runState.currentStep.order}: {runState.currentStep.instruction}
+          </span>
+        </div>
+      ) : null}
+
+      {/* ── Step timeline ── */}
+      <section className="panel" style={{ display: "grid", gap: "0.5rem" }}>
+        <h3 style={{ margin: "0 0 0.5rem" }}>
+          {isRunning ? "Lesson Steps" : isCompleted ? "Completed Steps" : "What You'll Learn"}
+        </h3>
+
+        {/* Show run steps if running/completed, otherwise show preview */}
+        {orderedSteps.length > 0 ? (
+          <div className="step-timeline">
+            {orderedSteps.map((step, idx) => {
+              const isLast = idx === orderedSteps.length - 1;
+              const circleClass =
+                step.status === "COMPLETED"
+                  ? "step-completed"
+                  : step.status === "ACTIVE"
+                    ? "step-active"
+                    : "step-locked";
+              const instructionClass =
+                step.status === "COMPLETED"
+                  ? "instruction-done"
+                  : step.status === "ACTIVE"
+                    ? "instruction-active"
+                    : "instruction-muted";
+              const labelClass =
+                step.status === "COMPLETED"
+                  ? "label-completed"
+                  : step.status === "ACTIVE"
+                    ? "label-active"
+                    : "label-locked";
+              const labelIcon =
+                step.status === "COMPLETED" ? "✓" : step.status === "ACTIVE" ? "●" : "🔒";
+              const labelText =
+                step.status === "COMPLETED"
+                  ? "Completed"
+                  : step.status === "ACTIVE"
+                    ? "In Progress"
+                    : "Locked";
+
+              return (
+                <div className="step-timeline-item" key={step.stepId}>
+                  <div className="step-timeline-track">
+                    <div className={`step-circle ${circleClass}`}>
+                      {step.status === "COMPLETED" ? "✓" : step.order}
+                    </div>
+                    {!isLast ? (
+                      <div className={`step-line ${step.status === "COMPLETED" ? "line-done" : "line-pending"}`} />
+                    ) : null}
+                  </div>
+                  <div className="step-content">
+                    <div className={`step-instruction ${instructionClass}`}>
+                      {step.instruction}
+                    </div>
+                    <div className={`step-status-label ${labelClass}`}>
+                      {labelIcon} {labelText}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : previewSteps.length > 0 ? (
+          <div className="step-timeline">
+            {previewSteps.map((step, idx) => {
+              const isLast = idx === previewSteps.length - 1;
+              return (
+                <div className="step-timeline-item" key={step.id}>
+                  <div className="step-timeline-track">
+                    <div className="step-circle step-locked">{step.order}</div>
+                    {!isLast ? <div className="step-line line-pending" /> : null}
+                  </div>
+                  <div className="step-content">
+                    <div className="step-instruction instruction-muted">
+                      {step.instruction}
+                    </div>
+                    <div className="step-status-label label-locked">
+                      🔒 Not started
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="muted">Loading steps...</p>
+        )}
       </section>
     </main>
   );
