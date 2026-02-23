@@ -47,6 +47,8 @@ function ensureCalloutElements() {
   if (!calloutBox) {
     calloutBox = document.createElement("div");
     calloutBox.setAttribute(COACH_UI_ATTR, "true");
+    calloutBox.setAttribute("popover", "manual"); // Enforce Top Layer
+    calloutBox.style.margin = "0"; // Reset popover default margin
     calloutBox.style.position = "fixed";
     calloutBox.style.width = "340px";
     calloutBox.style.maxWidth = "380px";
@@ -57,11 +59,11 @@ function ensureCalloutElements() {
     calloutBox.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 1px 0 rgba(255, 255, 255, 0.08) inset";
     calloutBox.style.padding = "0";
     calloutBox.style.overflow = "hidden";
-    calloutBox.style.zIndex = "2147483647";
+    calloutBox.style.setProperty("z-index", "2147483647", "important");
     calloutBox.style.color = "#f8fafc";
     calloutBox.style.fontFamily = "system-ui, -apple-system, Segoe UI, Roboto, sans-serif";
     calloutBox.style.pointerEvents = "none";
-    calloutBox.style.transition = "all 0.3s ease";
+    calloutBox.style.setProperty("transition", "all 0.3s ease", "important");
     calloutBox.style.animation = "fadeInCoach 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
 
     // Add custom animation to document if it doesn't exist
@@ -125,20 +127,25 @@ function ensureCalloutElements() {
     calloutMeta.style.gap = "6px";
     innerWrap.appendChild(calloutMeta);
 
-    document.documentElement.appendChild(calloutBox);
+    document.body.appendChild(calloutBox);
+    try { calloutBox.showPopover(); } catch(e) {} // Show in Top Layer
   }
 
   if (!connectorLine) {
     connectorLine = document.createElement("div");
     connectorLine.setAttribute(COACH_UI_ATTR, "true");
+    connectorLine.setAttribute("popover", "manual"); // Enforce Top Layer
+    connectorLine.style.margin = "0"; // Reset popover default margin
     connectorLine.style.position = "fixed";
     connectorLine.style.height = "2px";
     connectorLine.style.background = "linear-gradient(90deg, rgba(139, 92, 246, 0.8), rgba(59, 130, 246, 0.8))";
     connectorLine.style.transformOrigin = "0 50%";
     connectorLine.style.pointerEvents = "none";
-    connectorLine.style.zIndex = "2147483646";
+    connectorLine.style.setProperty("z-index", "2147483646", "important");
     connectorLine.style.boxShadow = "0 0 8px rgba(139, 92, 246, 0.5)";
-    document.documentElement.appendChild(connectorLine);
+    
+    document.body.appendChild(connectorLine);
+    try { connectorLine.showPopover(); } catch(e) {} // Show in Top Layer
   }
 }
 
@@ -153,7 +160,8 @@ function describeStep(step, selector) {
 
   const normalized = (selector || "").toLowerCase();
   const isChatGPT = window.location.hostname.includes("chatgpt.com");
-  const toolName = isChatGPT ? "ChatGPT" : "Gemini";
+  const isNotebookLM = window.location.hostname.includes("notebooklm.google.com");
+  const toolName = isChatGPT ? "ChatGPT" : isNotebookLM ? "NotebookLM" : "Gemini";
 
   if (
     normalized.includes("textarea") ||
@@ -784,6 +792,58 @@ function resolveSelector(selector) {
       const link = document.querySelector("a[href='/gpts']");
       if (link && isElementVisible(link)) return link;
       return findElementByText("Explore GPTs");
+    }
+    
+    // ── NotebookLM special selectors ──
+    if (selector === "special=notebooklm-new-notebook") {
+      const candidates = [
+        "button[aria-label*='New notebook' i]",
+        "[role='button'][aria-label*='New notebook' i]",
+        "button[aria-label*='Create' i]",
+        "[role='button'][aria-label*='Create' i]",
+        "div[class*='new-notebook']"
+      ];
+      for (const sel of candidates) {
+        const el = document.querySelector(sel);
+        if (el && isElementVisible(el)) return el;
+      }
+      return findElementByText("New notebook") || findElementByText("Create new") || findElementByText("New");
+    }
+    if (selector === "special=notebooklm-chat-input") {
+      const candidates = [
+        "input[placeholder*='typing' i]",
+        "textarea",
+        "[role='textbox']"
+      ];
+      for (const sel of candidates) {
+        const els = document.querySelectorAll(sel);
+        for (const el of els) {
+          if (isElementVisible(el)) return el;
+        }
+      }
+      return findElementByText("Start typing");
+    }
+    if (selector === "special=notebooklm-add-source") {
+      const candidates = [
+        "button[aria-label*='Add source' i]",
+        "[role='button'][aria-label*='Add source' i]"
+      ];
+      for (const sel of candidates) {
+        const el = document.querySelector(sel);
+        if (el && isElementVisible(el)) return el;
+      }
+      return findElementByText("Add sources") || findElementByText("Add source");
+    }
+    if (selector === "special=notebooklm-save-note") {
+      const candidates = [
+        "button[aria-label*='Save to note' i]",
+        "[role='button'][aria-label*='Save to note' i]"
+      ];
+      for (const sel of candidates) {
+        const el = document.querySelector(sel);
+        if (el && isElementVisible(el)) return el;
+      }
+      return findElementByText("Save to note");
     }
 
     if (selector.startsWith("text=")) {
