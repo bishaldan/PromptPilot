@@ -149,6 +149,29 @@ function ensureCalloutElements() {
   }
 }
 
+function promoteToTopLayer() {
+  try {
+    if (calloutBox && calloutBox.matches(':popover-open')) calloutBox.hidePopover();
+    if (calloutBox) calloutBox.showPopover();
+    if (connectorLine && connectorLine.matches(':popover-open')) connectorLine.hidePopover();
+    if (connectorLine) connectorLine.showPopover();
+  } catch (e) {}
+}
+
+function ensureTopLayer() {
+  if (!calloutBox || !isElementVisible(calloutBox)) return;
+  const rect = calloutBox.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  if (cx >= 0 && cy >= 0 && cx <= window.innerWidth && cy <= window.innerHeight) {
+    const topEl = document.elementFromPoint(cx, cy);
+    if (topEl && topEl !== calloutBox && !calloutBox.contains(topEl) && !isCoachUiElement(topEl)) {
+      // Coach UI is covered by a recently opened native top-layer modal!
+      promoteToTopLayer();
+    }
+  }
+}
+
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
@@ -1139,5 +1162,9 @@ chrome.runtime.onMessage.addListener((message) => {
   lastSignalKey = null;
   applyRunState(message.state);
 });
+
+// Continuously ensure the Coach UI stays in the top layer
+// even if dynamically opened native modals push it down.
+setInterval(ensureTopLayer, 1000);
 
 chrome.runtime.sendMessage({ type: "CONTENT_READY" });
