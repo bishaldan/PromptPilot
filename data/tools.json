@@ -14,5 +14,13 @@
     "icon": "🤖",
     "color": "#10a37f",
     "description": "OpenAI's conversational AI for chat, image generation, code, web browsing, file analysis, and custom GPTs."
+  },
+  {
+    "id": "notebooklm",
+    "slug": "notebooklm",
+    "name": "NotebookLM",
+    "icon": "📓",
+    "color": "#1967D2",
+    "description": "Google's AI research partner. Ground answers in your own documents, generate podcasts, quizzes, mind maps, and more."
   }
 ]

@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 const availableTools = [
   { slug: "chatgpt", name: "ChatGPT", description: "Master the world's most popular AI assistant. Learn prompt engineering, content generation, and data analysis.", icon: "💬" },
   { slug: "gemini", name: "Google Gemini", description: "Learn Google's powerful multimodal AI model. Explore its integration with Google Workspace and advanced reasoning.", icon: "✨" },
+  { slug: "notebooklm", name: "NotebookLM", description: "Google's AI research partner. Ground answers in your documents, generate podcasts, quizzes, mind maps, and more.", icon: "📓" },
 ];
 
 export default function ExplorePage() {
@@ -88,8 +89,10 @@ export default function ExplorePage() {
                 ? "linear-gradient(135deg, #10a37f 0%, #0d8265 100%)"
                 : tool.slug === "gemini" 
                 ? "linear-gradient(135deg, #1a73e8 0%, #8ab4f8 100%)"
+                : tool.slug === "notebooklm"
+                ? "linear-gradient(135deg, #1967D2 0%, #8ab4f8 100%)"
                 : "var(--panel)";
-              const isColored = tool.slug === "chatgpt" || tool.slug === "gemini";
+              const isColored = ["chatgpt", "gemini", "notebooklm"].includes(tool.slug);
 
               return (
                 <article key={tool.slug} className="panel course-card colored-card" style={{ 

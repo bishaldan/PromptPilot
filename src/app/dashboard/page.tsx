@@ -69,16 +69,19 @@ const CATEGORY_ICONS: Record<string, string> = {
 const COURSE_NAMES: Record<string, string> = {
   chatgpt: "Master ChatGPT",
   gemini: "Master Google Gemini",
+  notebooklm: "Master NotebookLM",
 };
 
 const COURSE_DESCRIPTIONS: Record<string, string> = {
   chatgpt: "From chat basics to deep research, image generation, and advanced features",
   gemini: "Learn Google's AI assistant — chat, canvas, research, and more",
+  notebooklm: "Your AI research partner — grounded answers, podcasts, quizzes & more",
 };
 
 const COURSE_GRADIENTS: Record<string, string> = {
   chatgpt: "linear-gradient(135deg, #10a37f 0%, #1a7f5a 100%)",
   gemini: "linear-gradient(135deg, #4285f4 0%, #7b68ee 100%)",
+  notebooklm: "linear-gradient(135deg, #1967D2 0%, #8ab4f8 100%)",
 };
 
 const difficultyColor: Record<string, string> = {

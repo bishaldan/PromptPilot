@@ -107,6 +107,7 @@ async function sendExtensionMessage(payload: {
 const TOOL_CONFIG: Record<string, { name: string; url: string; icon: string; color: string }> = {
   gemini: { name: "Google Gemini", url: "https://gemini.google.com", icon: "✦", color: "#4285F4" },
   chatgpt: { name: "ChatGPT", url: "https://chatgpt.com", icon: "⬡", color: "#10a37f" },
+  notebooklm: { name: "NotebookLM", url: "https://notebooklm.google.com", icon: "📓", color: "#1967D2" },
 };
 
 function getToolSlug(lessonId: string): string {
@@ -362,7 +363,22 @@ export default function LessonRunnerPage({ params }: { params: { lessonId: strin
         </div>
 
         {/* Error message */}
-        {error ? <div className="info-bar info-error"><span className="info-icon">⚠️</span><span>{error}</span></div> : null}
+        {error ? (
+          <div className="info-bar info-error">
+            <span className="info-icon">⚠️</span>
+            <span>
+              {error}
+              {error.includes("Consent") ? (
+                <>
+                  {" "}
+                  <Link href="/consent" style={{ textDecoration: "underline", fontWeight: "bold" }}>
+                    Review Policy
+                  </Link>
+                </>
+              ) : null}
+            </span>
+          </div>
+        ) : null}
       </div>
 
       {/* ── Progress bar (when running) ── */}

@@ -1,0 +1,802 @@
+[
+  {
+    "id": "notebooklm-first-notebook",
+    "tool": "notebooklm",
+    "title": "Your First Notebook",
+    "description": "Create your first NotebookLM notebook, add a website source, and explore the auto-generated summary.",
+    "difficulty": "BEGINNER",
+    "category": "Getting Started",
+    "estimatedMinutes": 8,
+    "steps": [
+      {
+        "id": "nfn-step-1",
+        "order": 1,
+        "instruction": "Open NotebookLM at notebooklm.google.com in a new tab.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": false
+      },
+      {
+        "id": "nfn-step-2",
+        "order": 2,
+        "instruction": "Click the '+ Create new' button in the top-right corner to start a new notebook.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Create new')",
+          "[aria-label='Create new']",
+          "a:has-text('Create new')"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Look for the '+ Create new' button at the top-right of the page."
+      },
+      {
+        "id": "nfn-step-3",
+        "order": 3,
+        "instruction": "In the modal that appears, click 'Websites' to add a URL as your first source.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Websites')",
+          "[aria-label='Websites']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Choose 'Websites' from the source options. You can also upload files, use Google Drive, or paste text."
+      },
+      {
+        "id": "nfn-step-4",
+        "order": 4,
+        "instruction": "Paste any website URL into the input field (e.g., a Wikipedia article) and click 'Insert'.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "input[type='url']",
+          "input[placeholder*='URL']",
+          "textarea",
+          "button:has-text('Insert')"
+        ],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true,
+        "coachText": "Paste any URL you like. Try a Wikipedia article to see how NotebookLM processes web content."
+      },
+      {
+        "id": "nfn-step-5",
+        "order": 5,
+        "instruction": "Wait for NotebookLM to process your source and read the auto-generated Notebook Summary in the Chat panel.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='chat']",
+          "[class*='summary']",
+          "main"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true,
+        "coachText": "NotebookLM automatically generates a summary of your source with bolded key terms and inline citations."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-grounded-questions",
+    "tool": "notebooklm",
+    "title": "Asking Grounded Questions",
+    "description": "Learn how to ask questions in NotebookLM and understand inline citations that link back to your sources.",
+    "difficulty": "BEGINNER",
+    "category": "Getting Started",
+    "estimatedMinutes": 7,
+    "steps": [
+      {
+        "id": "ngq-step-1",
+        "order": 1,
+        "instruction": "Open NotebookLM and navigate to an existing notebook (or create one with at least one source).",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "ngq-step-2",
+        "order": 2,
+        "instruction": "Click one of the suggested follow-up questions below the summary, or click the 'Start typing...' chat box at the bottom.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='chip']",
+          "[class*='suggestion']",
+          "input[placeholder*='typing']",
+          "textarea"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "You can click suggested follow-up questions or type your own in the chat box."
+      },
+      {
+        "id": "ngq-step-3",
+        "order": 3,
+        "instruction": "Type a question about your source material and press Enter to send it.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "input[placeholder*='typing']",
+          "textarea",
+          "[role='textbox']"
+        ],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true,
+        "coachText": "Ask something specific about your source. NotebookLM will only answer based on the content you provided."
+      },
+      {
+        "id": "ngq-step-4",
+        "order": 4,
+        "instruction": "Read the response and notice the numbered citation markers (1, 2, 3...) that reference specific passages in your source.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='citation']",
+          "sup",
+          "[class*='response']",
+          "main"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true,
+        "coachText": "Each numbered marker links to a specific passage in your source, ensuring every answer is grounded in your data."
+      },
+      {
+        "id": "ngq-step-5",
+        "order": 5,
+        "instruction": "Click on one of the citation numbers to see the exact passage in your source that supports the answer.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='citation']",
+          "sup",
+          "a[data-footnote]"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Clicking a citation shows you the exact text from your source that the AI used to generate its answer."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-saving-notes",
+    "tool": "notebooklm",
+    "title": "Saving Notes from Chat",
+    "description": "Convert AI chat responses into permanent notes you can review later.",
+    "difficulty": "BEGINNER",
+    "category": "Getting Started",
+    "estimatedMinutes": 5,
+    "steps": [
+      {
+        "id": "nsn-step-1",
+        "order": 1,
+        "instruction": "Open a NotebookLM notebook that has at least one chat response visible.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nsn-step-2",
+        "order": 2,
+        "instruction": "Find a useful chat response and click the 'Save to note' button below it.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Save to note')",
+          "[aria-label='Save to note']",
+          "[class*='save']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "The 'Save to note' button appears below each AI response, next to the copy and thumbs up/down buttons."
+      },
+      {
+        "id": "nsn-step-3",
+        "order": 3,
+        "instruction": "You can also create a manual note by clicking the 'Add note' button in the bottom-right corner of the page.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Add note')",
+          "[aria-label='Add note']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Manual notes let you add your own observations alongside AI-generated content."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-multiple-sources",
+    "tool": "notebooklm",
+    "title": "Adding Multiple Sources",
+    "description": "Upload a PDF and a website, then toggle sources on/off to control which content the AI uses.",
+    "difficulty": "INTERMEDIATE",
+    "category": "Research",
+    "estimatedMinutes": 10,
+    "steps": [
+      {
+        "id": "nms-step-1",
+        "order": 1,
+        "instruction": "Open an existing NotebookLM notebook or create a new one.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nms-step-2",
+        "order": 2,
+        "instruction": "In the left Sources panel, click '+ Add sources' to add another source.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Add sources')",
+          "[aria-label='Add sources']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "You can add up to 50 sources per notebook from different formats."
+      },
+      {
+        "id": "nms-step-3",
+        "order": 3,
+        "instruction": "Click 'Upload files' and upload a PDF document from your computer.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Upload files')",
+          "[aria-label='Upload files']",
+          "input[type='file']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "NotebookLM supports PDF, images, docs, and audio files."
+      },
+      {
+        "id": "nms-step-4",
+        "order": 4,
+        "instruction": "Wait for the new source to be processed and appear in your source list.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='source']",
+          "[class*='list']"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nms-step-5",
+        "order": 5,
+        "instruction": "Now toggle a source's checkbox OFF to exclude it from the AI's context, then ask a question. Notice how the AI only uses the remaining selected sources.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "input[type='checkbox']",
+          "[role='checkbox']",
+          "[class*='toggle']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Toggling sources lets you control exactly which documents the AI references when answering your questions."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-flashcards-quiz",
+    "tool": "notebooklm",
+    "title": "Generating Flashcards & Quizzes",
+    "description": "Use the Studio panel to generate study flashcards and self-assessment quizzes from your sources.",
+    "difficulty": "INTERMEDIATE",
+    "category": "Productivity",
+    "estimatedMinutes": 8,
+    "steps": [
+      {
+        "id": "nfq-step-1",
+        "order": 1,
+        "instruction": "Open a NotebookLM notebook that has at least one source added.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nfq-step-2",
+        "order": 2,
+        "instruction": "Look at the right-hand Studio panel and click 'Flashcards' to generate study cards from your sources.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Flashcards')",
+          "[aria-label='Flashcards']",
+          "[class*='flashcard']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "The Studio is on the right side of the screen. Flashcards will be auto-generated from your source material."
+      },
+      {
+        "id": "nfq-step-3",
+        "order": 3,
+        "instruction": "Review the generated flashcards. Each card has a question on one side and an answer sourced from your documents.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='flashcard']",
+          "[class*='card']",
+          "main"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true,
+        "coachText": "Flip through the flashcards to study key concepts from your uploaded content."
+      },
+      {
+        "id": "nfq-step-4",
+        "order": 4,
+        "instruction": "Now go back to the Studio panel and click 'Quiz' to generate a self-assessment quiz.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Quiz')",
+          "[aria-label='Quiz']",
+          "[class*='quiz']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "The Quiz tool creates multiple-choice or short-answer questions to test your knowledge."
+      },
+      {
+        "id": "nfq-step-5",
+        "order": 5,
+        "instruction": "Answer a few quiz questions to test your understanding of the source material.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='quiz']",
+          "[class*='answer']",
+          "button",
+          "main"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Try answering the questions. The quiz is grounded in your source material."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-mind-map",
+    "tool": "notebooklm",
+    "title": "Creating a Mind Map",
+    "description": "Use the Studio to generate a visual mind map that shows concept hierarchies from your sources.",
+    "difficulty": "INTERMEDIATE",
+    "category": "Creative Tools",
+    "estimatedMinutes": 6,
+    "steps": [
+      {
+        "id": "nmm-step-1",
+        "order": 1,
+        "instruction": "Open a NotebookLM notebook with at least one source.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nmm-step-2",
+        "order": 2,
+        "instruction": "In the right-hand Studio panel, click the 'Mind Map' button.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Mind Map')",
+          "[aria-label='Mind Map']",
+          "[class*='mind-map']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "The Mind Map tool creates a visual hierarchy of themes and concepts from your sources."
+      },
+      {
+        "id": "nmm-step-3",
+        "order": 3,
+        "instruction": "Wait for the mind map to be generated and explore the visual layout of concepts.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='mind-map']",
+          "[class*='graph']",
+          "svg",
+          "canvas",
+          "main"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true,
+        "coachText": "The mind map visually shows how concepts in your source relate to each other."
+      },
+      {
+        "id": "nmm-step-4",
+        "order": 4,
+        "instruction": "Click on different nodes in the mind map to explore sub-concepts and related themes.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='node']",
+          "[class*='mind-map']",
+          "svg",
+          "canvas"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Try clicking on nodes to see their connections and drill deeper into topics."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-audio-overview",
+    "tool": "notebooklm",
+    "title": "Audio Overview Deep Dive",
+    "description": "Generate an AI podcast-style audio discussion and customize the format, length, and focus area.",
+    "difficulty": "ADVANCED",
+    "category": "Creative Tools",
+    "estimatedMinutes": 12,
+    "steps": [
+      {
+        "id": "nao-step-1",
+        "order": 1,
+        "instruction": "Open a NotebookLM notebook with at least one rich source.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nao-step-2",
+        "order": 2,
+        "instruction": "In the Studio panel, find 'Audio Overview' and click the Edit/Customize pencil icon next to it.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Audio Overview')",
+          "[aria-label='Customize Audio Overview']",
+          "[class*='audio']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Click the pencil ✏️ icon next to Audio Overview to access customization options before generating."
+      },
+      {
+        "id": "nao-step-3",
+        "order": 3,
+        "instruction": "Explore the format options: Deep Dive (conversation), Brief, Critique, or Debate. Select one.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='format']",
+          "[class*='option']",
+          "select",
+          "[role='listbox']",
+          "[role='radio']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Each format produces a different style: Deep Dive is a friendly conversation, Critique adds analysis, Debate shows multiple perspectives."
+      },
+      {
+        "id": "nao-step-4",
+        "order": 4,
+        "instruction": "Set the length (Short, Default, or Long) and optionally add an Episode Focus to guide the discussion.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='length']",
+          "[class*='focus']",
+          "textarea",
+          "input",
+          "select"
+        ],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true,
+        "coachText": "The Episode Focus lets you direct the podcast to emphasize specific topics from your sources."
+      },
+      {
+        "id": "nao-step-5",
+        "order": 5,
+        "instruction": "Click the 'Generate' button to create your audio overview. This may take several minutes.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Generate')",
+          "[aria-label='Generate']",
+          "[class*='generate']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Audio generation takes a few minutes. You can continue using the notebook while it processes."
+      },
+      {
+        "id": "nao-step-6",
+        "order": 6,
+        "instruction": "Once generated, play the audio to hear the AI-hosted podcast discussion about your source material.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Play')",
+          "[class*='play']",
+          "audio",
+          "[class*='player']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Listen to the AI hosts discuss your source material in a natural, engaging conversation."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-slide-deck",
+    "tool": "notebooklm",
+    "title": "Building a Slide Deck",
+    "description": "Generate a professional presentation from your sources using the Studio's Slide Deck tool (BETA).",
+    "difficulty": "ADVANCED",
+    "category": "Productivity",
+    "estimatedMinutes": 10,
+    "steps": [
+      {
+        "id": "nsd-step-1",
+        "order": 1,
+        "instruction": "Open a NotebookLM notebook with at least one source.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nsd-step-2",
+        "order": 2,
+        "instruction": "In the Studio panel, click the Edit/Customize pencil icon next to 'Slide Deck'.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Slide Deck')",
+          "[aria-label='Customize Slide Deck']",
+          "[class*='slide']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Slide Deck is marked as BETA. Click the pencil icon to customize before generating."
+      },
+      {
+        "id": "nsd-step-3",
+        "order": 3,
+        "instruction": "Choose between 'Detailed Deck' (full text slides) or 'Presenter Slides' (visual cues only).",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='format']",
+          "[class*='option']",
+          "[role='radio']",
+          "select"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "'Detailed Deck' includes full text, while 'Presenter Slides' gives visual cues for live presentations."
+      },
+      {
+        "id": "nsd-step-4",
+        "order": 4,
+        "instruction": "Click 'Generate' and wait for NotebookLM to create your slide deck.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Generate')",
+          "[aria-label='Generate']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nsd-step-5",
+        "order": 5,
+        "instruction": "Review the generated slides. You can download or share them directly.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='slide']",
+          "[class*='deck']",
+          "main"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true,
+        "coachText": "Review each slide and note how NotebookLM organized your source content into a presentation structure."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-infographic",
+    "tool": "notebooklm",
+    "title": "Creating Infographics",
+    "description": "Design visual infographics from your source data using the Studio's Infographic tool (BETA).",
+    "difficulty": "ADVANCED",
+    "category": "Creative Tools",
+    "estimatedMinutes": 8,
+    "steps": [
+      {
+        "id": "nig-step-1",
+        "order": 1,
+        "instruction": "Open a NotebookLM notebook with at least one data-rich source.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nig-step-2",
+        "order": 2,
+        "instruction": "In the Studio panel, click the Edit/Customize pencil icon next to 'Infographic'.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Infographic')",
+          "[aria-label='Customize Infographic']",
+          "[class*='infographic']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Infographic is a BETA feature. Click the pencil icon to set orientation, detail level, and style."
+      },
+      {
+        "id": "nig-step-3",
+        "order": 3,
+        "instruction": "Choose your preferred orientation (Landscape, Portrait, or Square) and adjust the level of detail.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='orientation']",
+          "[class*='option']",
+          "[role='radio']",
+          "select"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Pick an orientation that fits how you plan to use the infographic — Landscape for presentations, Portrait for print."
+      },
+      {
+        "id": "nig-step-4",
+        "order": 4,
+        "instruction": "Click 'Generate' and wait for the infographic to be created.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Generate')",
+          "[aria-label='Generate']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nig-step-5",
+        "order": 5,
+        "instruction": "Review the generated infographic visual. You can download or share it.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='infographic']",
+          "[class*='image']",
+          "img",
+          "main"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true,
+        "coachText": "The infographic visually represents the key data points and concepts from your sources."
+      }
+    ]
+  },
+  {
+    "id": "notebooklm-research-synthesis",
+    "tool": "notebooklm",
+    "title": "Multi-Source Research Synthesis",
+    "description": "Combine multiple sources from different formats, use Fast Research, and generate a comprehensive Report.",
+    "difficulty": "ADVANCED",
+    "category": "Research",
+    "estimatedMinutes": 15,
+    "steps": [
+      {
+        "id": "nrs-step-1",
+        "order": 1,
+        "instruction": "Create a new notebook or open one. Ensure you start with at least 2–3 different sources.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": ["body"],
+        "actionType": "navigate",
+        "completionRule": "element_visible",
+        "allowManualConfirm": true
+      },
+      {
+        "id": "nrs-step-2",
+        "order": 2,
+        "instruction": "In the Sources panel, locate the web search bar and toggle on 'Fast Research' mode.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Fast Research')",
+          "[aria-label='Fast Research']",
+          "[class*='research']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Fast Research lets NotebookLM search the web and automatically add relevant sources to your notebook."
+      },
+      {
+        "id": "nrs-step-3",
+        "order": 3,
+        "instruction": "Search for a topic in the web search bar to let NotebookLM find and add new sources automatically.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "input[placeholder*='Search']",
+          "[class*='search']",
+          "input[type='search']"
+        ],
+        "actionType": "input",
+        "completionRule": "input_detected",
+        "allowManualConfirm": true,
+        "coachText": "Type any research topic. Fast Research will find and add relevant web sources to your notebook."
+      },
+      {
+        "id": "nrs-step-4",
+        "order": 4,
+        "instruction": "With multiple sources loaded, go to the Studio panel and click 'Reports' to generate a structured report.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Reports')",
+          "[aria-label='Reports']",
+          "[class*='report']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "The Reports tool synthesizes all your selected sources into a structured written summary."
+      },
+      {
+        "id": "nrs-step-5",
+        "order": 5,
+        "instruction": "Review the generated report. Notice how it synthesizes information from multiple sources with citations.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "[class*='report']",
+          "[class*='content']",
+          "main"
+        ],
+        "actionType": "wait_for_response",
+        "completionRule": "response_detected",
+        "allowManualConfirm": true,
+        "coachText": "The report will cross-reference your sources, highlighting agreements and differences between them."
+      },
+      {
+        "id": "nrs-step-6",
+        "order": 6,
+        "instruction": "Save the report as a note for later reference by clicking 'Save to note'.",
+        "urlPattern": "https://notebooklm.google.com/*",
+        "targetSelectors": [
+          "button:has-text('Save to note')",
+          "[aria-label='Save to note']"
+        ],
+        "actionType": "click",
+        "completionRule": "clicked_target",
+        "allowManualConfirm": true,
+        "coachText": "Saving the report as a note makes it permanently available in your notebook."
+      }
+    ]
+  }
+]

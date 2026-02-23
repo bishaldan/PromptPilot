@@ -131,7 +131,7 @@ async function main() {
   const hash = crypto.pbkdf2Sync(adminPass, salt, 120_000, 64, "sha512").toString("hex");
   const passwordHash = `${salt}:${hash}`;
 
-  await prisma.user.upsert({
+  const adminUser = await prisma.user.upsert({
     where: { email: adminEmail },
     update: { role: "admin", displayName: "Admin", passwordHash },
     create: {
@@ -139,6 +139,21 @@ async function main() {
       passwordHash,
       displayName: "Admin",
       role: "admin",
+    },
+  });
+
+  await prisma.consent.upsert({
+    where: {
+      userId_policyVersion: {
+        userId: adminUser.id,
+        policyVersion: "v1",
+      },
+    },
+    update: { acceptedAt: new Date() },
+    create: {
+      userId: adminUser.id,
+      policyVersion: "v1",
+      acceptedAt: new Date(),
     },
   });
 
