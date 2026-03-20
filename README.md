@@ -1,258 +1,219 @@
-<div align="center">
+# PromptPilot
 
-# ✦ AI Auto Teaching Hub
-
-### Learn AI Tools Through Guided, Interactive Practice
+PromptPilot is an interactive AI learning platform that teaches real product workflows through guided, verified practice. Instead of static tutorials, learners work inside the actual tool interface while PromptPilot tracks step completion, highlights the next action, and records progress without storing prompt or response text.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![MariaDB](https://img.shields.io/badge/MariaDB-11.4-003545?logo=mariadb)](https://mariadb.org/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-<br />
+![PromptPilot landing page](./public/images/hero.png)
 
-_A free, accessible learning platform that teaches anyone — from students to seniors — how to use AI tools like Google Gemini through step-by-step, verified lessons._
+## Why PromptPilot exists
 
-<br />
+Most AI tutorials are still passive. They assume technical confidence, skip the hard parts of using real tools, and leave beginners guessing whether they did the task correctly.
 
-[Getting Started](#-getting-started) · [Features](#-features) · [Tech Stack](#-tech-stack) · [Project Structure](#-project-structure) · [Screenshots](#-screenshots) · [Contributing](#-contributing)
+PromptPilot closes that gap with:
 
-</div>
+- guided step-by-step lessons
+- real-time verification via a Chrome extension bridge
+- accessibility-first interface decisions for beginners and older learners
+- privacy-safe telemetry focused on learning progress, not prompt contents
 
----
+## Product highlights
 
-## 🎯 The Problem
+- **Interactive lessons**: learners follow steps directly inside Gemini, ChatGPT, or NotebookLM flows
+- **Verified progression**: a lesson only advances when the current required step is actually completed
+- **Progress and badges**: users can track completions, runs, and earned achievements
+- **Admin visibility**: admins can review learners, lessons, and platform stats
+- **Warm visual design**: white-and-amber gradients, lift-on-hover cards, slide-up hero motion, and large touch targets
+- **Docker-first setup**: web app and MariaDB can be booted with one compose file
 
-Most AI tutorials are written for technical audiences. They assume programming knowledge and leave beginners behind. We built AI Auto Teaching Hub to change that.
+## Experience and motion system
 
-## 💡 The Solution
+PromptPilot is intentionally not styled like a generic dashboard template.
 
-An interactive learning platform where **anyone** can sit down and start learning AI tools immediately through:
+- **Color direction**: warm amber accents on an airy white background
+- **Texture**: layered radial gradients give the landing pages depth without adding noise
+- **Motion**: hero content uses staged slide-up entry; cards use soft hover elevation to reinforce interactivity
+- **Accessibility**: 18px base font sizing, visible focus rings, and 48px minimum target sizing across the UI
 
-- **Step-by-step guided lessons** that walk you through real AI tasks
-- **Real-time verification** via a Chrome extension that confirms each step
-- **A warm, accessible UI** designed so even your grandparents can use it
+## System architecture
 
----
+```mermaid
+flowchart LR
+  Learner["Learner"] --> Web["PromptPilot web app<br/>Next.js + React"]
+  Web --> API["App Router API routes"]
+  API --> Prisma["Prisma ORM"]
+  Prisma --> DB["MariaDB"]
+  Web --> Bridge["Lesson bridge<br/>localhost content script"]
+  Bridge --> Extension["Chrome extension<br/>background + content scripts"]
+  Extension --> Tools["Supported AI tools<br/>Gemini / ChatGPT / NotebookLM"]
+  Tools --> Extension
+  Extension --> API
+```
 
-## ✨ Features
+### Runtime flow
 
-| Feature                    | Description                                                                           |
-| :------------------------- | :------------------------------------------------------------------------------------ |
-| 📚 **Interactive Lessons** | Follow guided steps on the actual AI tool. Each step is verified in real time.        |
-| 🏆 **Badges & Progress**   | Earn badges as you complete lessons. Track your learning journey with detailed stats. |
-| 🤖 **Multiple AI Tools**   | Currently supports Google Gemini. More tools coming soon.                             |
-| 👤 **User Profiles**       | Editable display name, avatar, and comprehensive stats dashboard.                     |
-| 🛡️ **Admin Panel**         | Platform overview, user management, lesson analytics for administrators.              |
-| ♿ **Accessibility First** | 18px font, 48px touch targets, high contrast, focus rings — designed for all ages.    |
-| 🆓 **100% Free**           | No paywall, no premium tier. Education should be free.                                |
+1. A learner starts a lesson in the web app.
+2. The app creates a lesson run and signs a short-lived lesson token.
+3. The extension connects that lesson run through the localhost bridge.
+4. The content script highlights the active UI target in the real AI tool.
+5. Step events are sent back to the app for validation in strict order.
+6. Progress, badges, and telemetry-safe run state are stored in MariaDB.
 
----
+## Tech stack
 
-## 🚀 Getting Started
+| Layer | Technology |
+| :-- | :-- |
+| Frontend | Next.js 14 App Router, React 18, TypeScript |
+| Styling | Custom CSS with responsive layout and motion |
+| Backend | Next.js API routes |
+| Database | MariaDB 11.4 |
+| ORM | Prisma |
+| Auth | Signed cookie session + lesson run token flow |
+| Browser integration | Chrome Extension Manifest V3 |
+| Tooling | Docker Compose, ESLint, Vitest |
+
+## Repository structure
+
+```text
+promptpilot/
+├── src/
+│   ├── app/                  # Pages and API routes
+│   ├── components/           # Shared UI
+│   ├── lib/                  # Auth, runtime, Prisma, crypto helpers
+│   └── types/                # Shared contracts
+├── data/
+│   ├── tools.json            # Tool registry
+│   └── lessons/              # Lesson content files
+├── extension/                # PromptPilot Coach extension
+├── prisma/                   # Schema and seed script
+├── public/images/            # README and product images
+├── docs/                     # Project and release docs
+├── .github/workflows/        # CI automation
+├── Dockerfile
+└── docker-compose.yml
+```
+
+## Supported tools
+
+- Google Gemini
+- ChatGPT
+- NotebookLM
+
+Current lesson coverage is Gemini-first, with the extension runtime already shaped for multi-tool support.
+
+## Security and privacy posture
+
+- No prompt text is stored
+- No model response text is stored
+- Telemetry is limited to step-verification metadata such as event type, selector identifier, URL hash, and input length bucket
+- Secrets are injected through environment variables
+- The seed script does **not** create a default admin account unless you explicitly provide `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`
+- The extension manifest is scoped to supported AI hosts plus local PromptPilot development origins
+
+See [`SECURITY.md`](./SECURITY.md) for the reporting policy.
+
+## Quick start with Docker
 
 ### Prerequisites
 
-- [Docker](https://www.docker.com/get-started) & Docker Compose
-- [Git](https://git-scm.com/)
+- Docker Desktop
+- Git
+- Chrome or Chromium for the extension workflow
 
-### Quick Start
+### 1. Clone and configure
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/bishaldan/AI-auto-teaching-hub.git
-cd AI-auto-teaching-hub
-
-# 2. Create your environment file
+git clone https://github.com/bishaldan/promptpilot.git
+cd promptpilot
 cp .env.example .env
-# Edit .env with your settings (or use defaults for development)
-
-# 3. Start the application
-docker compose up --build -d
-
-# 4. Open in your browser
-open http://localhost:3000
 ```
 
-### Default Admin Account
+Set strong values for:
 
-| Field    | Value               |
-| :------- | :------------------ |
-| Email    | `admin@aiteach.hub` |
-| Password | `AdminPass123!`     |
+- `AUTH_SECRET`
+- `LESSON_TOKEN_SECRET`
 
----
-
-## 🛠️ Tech Stack
-
-| Layer              | Technology                                                        |
-| :----------------- | :---------------------------------------------------------------- |
-| **Frontend**       | Next.js 14 (App Router), React 18, TypeScript                     |
-| **Styling**        | Vanilla CSS — white & orange theme, mobile responsive             |
-| **Backend**        | Next.js API Routes                                                |
-| **Database**       | MariaDB 11.4 + Prisma ORM                                         |
-| **Authentication** | JWT sessions via `session_token` cookie                           |
-| **Deployment**     | Docker Compose (web + database)                                   |
-| **Extension**      | Chrome companion extension for step verification                  |
-| **Font**           | [Outfit](https://fonts.google.com/specimen/Outfit) (Google Fonts) |
-
----
-
-## 📁 Project Structure
-
-```
-ai-auto-teaching-hub/
-│
-├── src/
-│   ├── app/                        # Next.js App Router pages
-│   │   ├── page.tsx                # Landing page (homepage)
-│   │   ├── about/page.tsx          # About Us
-│   │   ├── login/page.tsx          # Authentication
-│   │   ├── register/page.tsx       # Registration
-│   │   ├── welcome/page.tsx        # Post-registration onboarding
-│   │   ├── dashboard/page.tsx      # Learning dashboard
-│   │   ├── profile/page.tsx        # User profile & stats
-│   │   ├── admin/page.tsx          # Admin panel
-│   │   ├── lessons/[slug]/page.tsx # Lesson runner
-│   │   └── api/                    # REST API routes
-│   │       ├── auth/               # Login, register, logout
-│   │       ├── me/                 # User profile, stats, progress
-│   │       └── admin/              # Admin analytics
-│   │
-│   ├── components/                 # Shared React components
-│   │   └── Navbar.tsx              # Persistent navigation bar
-│   │
-│   └── lib/                        # Utilities
-│       ├── tokens.ts               # JWT token management
-│       ├── admin-guard.ts          # Role-based access control
-│       ├── api-client.ts           # Frontend fetch helper
-│       └── http.ts                 # HTTP utilities
-│
-├── prisma/
-│   ├── schema.prisma               # Database schema
-│   └── seed.ts                     # Auto-discovery lesson seeder
-│
-├── data/
-│   ├── tools.json                  # AI tool definitions
-│   └── lessons/                    # Lesson JSON files
-│       └── gemini/                 # Google Gemini lessons
-│
-├── public/images/                  # Static assets
-├── docs/                           # Documentation
-│   ├── PROJECT.md                  # Project overview
-│   └── CHANGELOG.md                # Version history
-│
-├── docker-compose.yml              # Container orchestration
-├── Dockerfile                      # App container build
-└── package.json                    # Dependencies
-```
-
----
-
-## 📸 Screenshots
-
-### Landing Page
-
-A welcoming homepage with hero section, feature cards, testimonials, and call-to-action.
-
-### Learning Dashboard
-
-Filter lessons by tool and difficulty. Track progress with stats and progress bars.
-
-### Profile & Stats
-
-View your learning statistics — lessons completed, badges earned, completion rate.
-
-### Admin Panel
-
-Platform overview with user management and lesson analytics.
-
----
-
-## 📖 How It Works
-
-```
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│  1. Sign Up  │───▶│ 2. Pick a    │───▶│ 3. Practice  │
-│              │    │    Lesson     │    │    & Learn    │
-│ Free account │    │ Browse by    │    │ Follow steps │
-│ in < 1 min   │    │ tool & level │    │ on actual AI │
-└──────────────┘    └──────────────┘    └──────────────┘
-                                              │
-                                              ▼
-                                    ┌──────────────────┐
-                                    │ Chrome Extension  │
-                                    │ verifies each     │
-                                    │ step in real time │
-                                    └──────────────────┘
-```
-
-1. **Create an account** — just name, email, and password
-2. **Pick a lesson** — browse by AI tool and difficulty level
-3. **Practice on the AI tool** — the platform guides you step by step
-4. **Get verified** — a Chrome extension confirms you completed each step correctly
-5. **Earn badges** — complete lessons to earn badges and track progress
-
----
-
-## 🧪 Development
-
-### Running Without Docker
+Optional admin bootstrap:
 
 ```bash
-# Install dependencies
-npm install
+SEED_ADMIN_EMAIL=admin@example.com
+SEED_ADMIN_PASSWORD=use-a-long-unique-password
+```
 
-# Set up database (requires MariaDB/MySQL)
+### 2. Start the stack
+
+```bash
+docker compose up --build
+```
+
+The app will be available at [http://localhost:3000](http://localhost:3000).
+
+### 3. Load the extension
+
+1. Open `chrome://extensions`
+2. Turn on Developer Mode
+3. Click `Load unpacked`
+4. Select the `extension/` directory
+5. Reload the extension after any source change
+
+## Local development without Docker
+
+```bash
+npm install
 npx prisma generate
 npx prisma db push
-npx prisma db seed
-
-# Start dev server
+npm run seed
 npm run dev
 ```
 
-### Environment Variables
+If you want the seed script to create an admin user:
 
-| Variable              | Description               | Default                 |
-| :-------------------- | :------------------------ | :---------------------- |
-| `DATABASE_URL`        | MariaDB connection string | Set in docker-compose   |
-| `AUTH_SECRET`         | JWT signing secret        | Set in .env             |
-| `NEXT_PUBLIC_APP_URL` | Application URL           | `http://localhost:3000` |
+```bash
+SEED_ADMIN_EMAIL=admin@example.com SEED_ADMIN_PASSWORD=use-a-long-unique-password npm run seed
+```
 
----
+## Environment variables
 
-## 📋 Changelog
+| Variable | Required | Purpose |
+| :-- | :-- | :-- |
+| `DATABASE_URL` | Yes | Prisma connection string for MariaDB |
+| `AUTH_SECRET` | Yes | Session token signing secret |
+| `LESSON_TOKEN_SECRET` | Yes | Extension lesson-run token signing secret |
+| `POLICY_VERSION` | Yes | Consent version gate |
+| `NEXT_PUBLIC_APP_URL` | Yes | Public app URL |
+| `NEXT_PUBLIC_API_BASE_URL` | No | Leave empty for same-origin `/api` |
+| `SEED_ADMIN_EMAIL` | No | Bootstrap admin email during seeding |
+| `SEED_ADMIN_PASSWORD` | No | Bootstrap admin password during seeding |
 
-See [docs/CHANGELOG.md](docs/CHANGELOG.md) for a complete version history.
+## Quality checks
 
-**Latest: v1.2.0** — White & orange UI overhaul, new homepage & about page, accessibility improvements.
+Run before pushing or opening a pull request:
 
----
+```bash
+npm run lint
+npm run test
+npm run build
+```
 
-## 🤝 Contributing
+GitHub Actions runs the same quality checks automatically on pushes and pull requests.
 
-Contributions are welcome! Here's how:
+## Documentation
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- [`DOC.md`](./DOC.md): technical architecture, data flow, and API overview
+- [`docs/PROJECT.md`](./docs/PROJECT.md): concise project summary
+- [`docs/CHANGELOG.md`](./docs/CHANGELOG.md): release history
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md): contribution workflow
 
----
+## Screenshots
 
-## 📄 License
+| Landing page | About page |
+| :-- | :-- |
+| ![PromptPilot landing page](./public/images/hero.png) | ![PromptPilot about page](./public/images/about.png) |
 
-This project is open source and available under the [MIT License](LICENSE).
+## License
 
----
-
-<div align="center">
-
-**Built with ❤️ to make AI education accessible for everyone.**
-
-[⬆ Back to Top](#-ai-auto-teaching-hub)
-
-</div>
+PromptPilot is available under the [MIT License](./LICENSE).

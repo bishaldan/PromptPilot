@@ -5,6 +5,59 @@ import { LessonSeed, ToolSeed } from "../src/types/lesson";
 
 const prisma = new PrismaClient();
 
+function readOptionalEnv(name: string): string | null {
+  const value = process.env[name]?.trim();
+  return value ? value : null;
+}
+
+async function seedAdminUser() {
+  const adminEmail = readOptionalEnv("SEED_ADMIN_EMAIL");
+  const adminPass = readOptionalEnv("SEED_ADMIN_PASSWORD");
+  const policyVersion = readOptionalEnv("POLICY_VERSION") ?? "v1";
+
+  if (!adminEmail || !adminPass) {
+    console.log("Skipped admin bootstrap. Set SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD to create an admin user.");
+    return;
+  }
+
+  if (adminPass.length < 12) {
+    throw new Error("SEED_ADMIN_PASSWORD must be at least 12 characters long.");
+  }
+
+  const crypto = await import("crypto");
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hash = crypto.pbkdf2Sync(adminPass, salt, 120_000, 64, "sha512").toString("hex");
+  const passwordHash = `${salt}:${hash}`;
+
+  const adminUser = await prisma.user.upsert({
+    where: { email: adminEmail },
+    update: { role: "admin", displayName: "Admin", passwordHash },
+    create: {
+      email: adminEmail,
+      passwordHash,
+      displayName: "Admin",
+      role: "admin",
+    },
+  });
+
+  await prisma.consent.upsert({
+    where: {
+      userId_policyVersion: {
+        userId: adminUser.id,
+        policyVersion,
+      },
+    },
+    update: { acceptedAt: new Date() },
+    create: {
+      userId: adminUser.id,
+      policyVersion,
+      acceptedAt: new Date(),
+    },
+  });
+
+  console.log(`Seeded admin user for ${adminEmail}.`);
+}
+
 async function main() {
   // ── 1. Seed tools from data/tools.json ──
   const toolsPath = path.join(process.cwd(), "data", "tools.json");
@@ -123,42 +176,8 @@ async function main() {
     }
   }
 
-  // ── 3. Seed a default admin user ──
-  const crypto = await import("crypto");
-  const adminEmail = "admin@aiteach.hub";
-  const adminPass = "AdminPass123!";
-  const salt = crypto.randomBytes(16).toString("hex");
-  const hash = crypto.pbkdf2Sync(adminPass, salt, 120_000, 64, "sha512").toString("hex");
-  const passwordHash = `${salt}:${hash}`;
-
-  const adminUser = await prisma.user.upsert({
-    where: { email: adminEmail },
-    update: { role: "admin", displayName: "Admin", passwordHash },
-    create: {
-      email: adminEmail,
-      passwordHash,
-      displayName: "Admin",
-      role: "admin",
-    },
-  });
-
-  await prisma.consent.upsert({
-    where: {
-      userId_policyVersion: {
-        userId: adminUser.id,
-        policyVersion: "v1",
-      },
-    },
-    update: { acceptedAt: new Date() },
-    create: {
-      userId: adminUser.id,
-      policyVersion: "v1",
-      acceptedAt: new Date(),
-    },
-  });
-
   console.log(`Seeded ${totalLessons} lesson(s) across ${files.length} file(s).`);
-  console.log(`Admin user: ${adminEmail} / ${adminPass}`);
+  await seedAdminUser();
 }
 
 main()

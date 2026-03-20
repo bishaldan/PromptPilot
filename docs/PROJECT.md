@@ -1,101 +1,55 @@
-# AI Auto Teaching Hub
+# PromptPilot
 
-## What Is This?
+PromptPilot is an interactive AI-learning product that teaches real workflows inside real AI tools. The platform guides learners step by step, verifies progress through a Chrome extension bridge, and keeps the experience beginner-friendly and privacy-conscious.
 
-AI Auto Teaching Hub is a **free, interactive learning platform** that teaches people how to use AI tools like Google Gemini through guided, step-by-step lessons. Each lesson walks you through real tasks on the actual AI tool, verifying every step so you learn by doing — not just reading.
+## Intended audience
 
-The platform is designed to be **accessible for everyone**, including elderly users and complete beginners with no technical background.
+- students learning practical AI literacy
+- professionals building tool fluency
+- educators introducing AI in guided settings
+- beginners and older learners who need a calmer, more accessible experience
 
----
+## What makes it different
 
-## Who Is It For?
+- lessons happen inside the real tool, not a sandbox imitation
+- progress advances only when the current step is actually completed
+- the interface uses large type, clear spacing, visible focus states, and warm visual design
+- telemetry is minimal and avoids storing prompt or response text
 
-- 🎓 **Students** — learn AI tools to boost academic and career skills
-- 👩‍💼 **Professionals** — stay current with the latest AI capabilities
-- 👴 **Seniors** — discover AI at your own pace with a friendly, easy-to-use interface
-- 🧑‍🏫 **Educators** — use the platform to teach AI literacy in classrooms
+## Stack summary
 
----
+- Next.js App Router
+- React + TypeScript
+- Prisma + MariaDB
+- Manifest V3 Chrome extension
+- Docker Compose for local orchestration
 
-## Core Features
+## Current product capabilities
 
-| Feature                 | Description                                                      |
-| :---------------------- | :--------------------------------------------------------------- |
-| **Interactive Lessons** | Step-by-step guides verified in real time via a Chrome extension |
-| **Multiple AI Tools**   | Currently supports Google Gemini, with more tools planned        |
-| **Badges & Progress**   | Earn badges as you complete lessons; track your learning journey |
-| **User Profiles**       | Editable display name, stats dashboard, progress tracking        |
-| **Admin Panel**         | Platform overview, user management, lesson analytics             |
-| **Accessibility**       | 18px font, large touch targets, high contrast white/orange theme |
+- interactive lesson catalog
+- lesson-run state tracking
+- consent gate for monitored verification
+- badges and learner progress
+- admin dashboard and user stats
+- Gemini-first guided lessons with extension-assisted verification
 
----
-
-## Tech Stack
-
-| Layer            | Technology                                 |
-| :--------------- | :----------------------------------------- |
-| Frontend         | Next.js 14 (App Router), React, TypeScript |
-| Styling          | Vanilla CSS (white & orange theme)         |
-| Backend          | Next.js API Routes                         |
-| Database         | MariaDB + Prisma ORM                       |
-| Auth             | JWT sessions via `session_token` cookie    |
-| Deployment       | Docker Compose (web + db)                  |
-| Chrome Extension | Companion extension for step verification  |
-| Font             | Outfit (Google Fonts)                      |
-
----
-
-## Project Structure
-
-```
-ai-auto-teaching-hub/
-├── src/
-│   ├── app/                    # Next.js pages
-│   │   ├── page.tsx            # Landing page (homepage)
-│   │   ├── about/              # About Us page
-│   │   ├── login/              # Login page
-│   │   ├── register/           # Registration page
-│   │   ├── welcome/            # Post-registration onboarding
-│   │   ├── dashboard/          # Main learning dashboard
-│   │   ├── profile/            # User profile & stats
-│   │   ├── admin/              # Admin panel
-│   │   ├── lessons/            # Lesson runner
-│   │   ├── consent/            # Extension consent flow
-│   │   └── api/                # API routes
-│   ├── components/             # Reusable components (Navbar)
-│   └── lib/                    # Utilities (auth, tokens, admin-guard)
-├── prisma/
-│   ├── schema.prisma           # Database schema
-│   └── seed.ts                 # Database seeder
-├── data/
-│   ├── tools.json              # AI tool definitions
-│   └── lessons/                # Lesson JSON files
-├── public/images/              # Hero & about illustrations
-├── docs/                       # Project documentation
-├── docker-compose.yml          # Docker orchestration
-└── Dockerfile                  # Container build
-```
-
----
-
-## How to Run
+## Local run
 
 ```bash
-# Start the app (requires Docker)
-docker compose up --build -d
-
-# Access at http://localhost:3000
-
-# Default admin account:
-# Email: admin@aiteach.hub
-# Password: AdminPass123!
+cp .env.example .env
+docker compose up --build
 ```
 
----
+Optional admin bootstrap during seed:
 
-## Design Philosophy
+```bash
+SEED_ADMIN_EMAIL=admin@example.com
+SEED_ADMIN_PASSWORD=use-a-long-unique-password
+```
 
-1. **Accessibility First** — large text, clear labels, generous spacing
-2. **White & Orange** — warm, welcoming color palette
-3. **Learning by Doing** — every lesson has verified hands-on practice
-4. **Free Forever** — no paywall, no premium tier
+## Related docs
+
+- `README.md`
+- `DOC.md`
+- `docs/CHANGELOG.md`
+- `SECURITY.md`

@@ -3,19 +3,18 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI Teaching Hub - Learn AI Tools Interactively for Free",
+  title: "PromptPilot - Learn AI Tools Interactively for Free",
   description: "Master Google Gemini, ChatGPT, and other AI tools with our free, step-by-step interactive lessons. A learning platform designed for beginners and people of all ages.",
   keywords: ["AI learning", "learn ChatGPT", "learn Gemini", "AI tutorial", "interactive AI lessons", "free AI course"],
   openGraph: {
-    title: "AI Teaching Hub | Free Interactive AI Learning",
+    title: "PromptPilot | Free Interactive AI Learning",
     description: "Learn AI tools easily through hands-on practice. Free for everyone.",
     type: "website",
-    url: "https://ai-auto-teaching-hub.com",
-    siteName: "AI Teaching Hub",
+    siteName: "PromptPilot",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Teaching Hub",
+    title: "PromptPilot",
     description: "Learn how to use AI tools step-by-step for free.",
   }
 };
@@ -27,7 +26,7 @@ export default function HomePage() {
       <nav className="public-navbar">
         <a href="/" className="public-navbar-brand">
           <span className="navbar-logo">✦</span>
-          AI Teaching Hub
+          PromptPilot
         </a>
         <div className="public-nav-links">
           <a href="/explore" className="public-nav-link">Explore</a>
@@ -199,7 +198,7 @@ export default function HomePage() {
       <footer className="site-footer">
         <div className="footer-inner">
           <div>
-            <div className="footer-brand">✦ AI Teaching Hub</div>
+            <div className="footer-brand">✦ PromptPilot</div>
             <p className="footer-desc">
               Making AI education accessible for everyone, regardless of age or experience.
             </p>
@@ -221,7 +220,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="footer-bottom">
-          © 2026 AI Teaching Hub. All rights reserved.
+          © 2026 PromptPilot. All rights reserved.
         </div>
       </footer>
     </>

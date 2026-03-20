@@ -4,11 +4,11 @@ import { Metadata } from "next";
 
 // Define metadata for SEO
 export const metadata: Metadata = {
-  title: "Explore AI Courses - AI Auto Teaching Hub",
-  description: "Discover our mission at AI Auto Teaching Hub. Browse our interactive AI courses including ChatGPT and Google Gemini. Master AI tools with guided, real-world practice.",
+  title: "Explore AI Courses - PromptPilot",
+  description: "Discover our mission at PromptPilot. Browse our interactive AI courses including ChatGPT and Google Gemini. Master AI tools with guided, real-world practice.",
   keywords: ["AI education", "learn AI free", "ChatGPT course", "Google Gemini tutorial", "interactive learning platform", "AI for beginners"],
   openGraph: {
-    title: "Explore Interactive AI Courses | AI Teaching Hub",
+    title: "Explore Interactive AI Courses | PromptPilot",
     description: "Learn how to use top AI tools like ChatGPT and Gemini with interactive, step-by-step lessons. Discover our mission to make AI accessible to everyone.",
     type: "website",
   },
@@ -26,7 +26,7 @@ export default function ExplorePage() {
       <nav className="public-navbar">
         <Link href="/" className="public-navbar-brand">
           <span className="navbar-logo">✦</span>
-          AI Teaching Hub
+          PromptPilot
         </Link>
         <div className="public-nav-links">
           <Link href="/explore" className="public-nav-link" style={{ fontWeight: 600, color: 'var(--accent)' }}>Explore</Link>
@@ -40,7 +40,7 @@ export default function ExplorePage() {
         <header style={{ textAlign: "center", marginBottom: "4rem" }}>
           <h1>Explore Our <span className="highlight">Platform & Courses</span></h1>
           <p className="hero-subtitle" style={{ maxWidth: "700px", margin: "1.5rem auto 0" }}>
-            The AI Auto Teaching Hub is dedicated to making artificial intelligence accessible to everyone. 
+            PromptPilot is dedicated to making artificial intelligence accessible to everyone. 
             Discover how our interactive approach helps you build practical AI skills from day one.
           </p>
         </header>
@@ -50,7 +50,7 @@ export default function ExplorePage() {
           <h2 style={{ marginBottom: "1.5rem", fontSize: "2rem" }}>What This Website Is All About</h2>
           <p style={{ fontSize: "1.1rem", lineHeight: "1.8", color: "var(--text-primary)", marginBottom: "1.5rem" }}>
             Artificial Intelligence is transforming the world, but many people are left behind because traditional tutorials can be confusing or passive. 
-            <strong> The AI Auto Teaching Hub </strong> was created with a single mission: to provide a hands-on, zero-intimidation environment where anyone—regardless of age or technical background—can learn to use AI tools effectively.
+            <strong> PromptPilot </strong> was created with a single mission: to provide a hands-on, zero-intimidation environment where anyone-regardless of age or technical background-can learn to use AI tools effectively.
           </p>
           <p style={{ fontSize: "1.1rem", lineHeight: "1.8", color: "var(--text-primary)" }}>
             We believe that you learn best by doing. Instead of just reading text or watching videos, our platform puts you in the driver's seat. 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata = {
-  title: "About Us — AI Teaching Hub",
+  title: "About Us - PromptPilot",
   description: "Learn about our mission to make AI education accessible for everyone.",
 };
 
@@ -13,7 +13,7 @@ export default function AboutPage() {
       <nav className="public-navbar">
         <a href="/" className="public-navbar-brand">
           <span className="navbar-logo">✦</span>
-          AI Teaching Hub
+          PromptPilot
         </a>
         <div className="public-nav-links">
           <a href="/explore" className="public-nav-link">Explore</a>
@@ -25,9 +25,9 @@ export default function AboutPage() {
 
       {/* ── About Hero ── */}
       <section className="about-hero">
-        <h1>About AI Teaching Hub</h1>
+        <h1>About PromptPilot</h1>
         <p>
-          We believe everyone deserves to understand and use AI — regardless of age,
+          We believe everyone deserves to understand and use AI, regardless of age,
           background, or technical skill. Our mission is to make AI education
           accessible, friendly, and practical.
         </p>
@@ -46,15 +46,15 @@ export default function AboutPage() {
         <div className="about-inner">
           <h2>Our Mission</h2>
           <p>
-            AI is transforming how we work, learn, and communicate — but many people
-            feel left behind. We built AI Teaching Hub to change that. Our interactive,
+            AI is transforming how we work, learn, and communicate, but many people
+            feel left behind. We built PromptPilot to change that. Our interactive,
             step-by-step lessons guide you through real AI tasks so you can learn
             by doing, not just reading.
           </p>
           <p>
             Whether you're a retired teacher discovering AI for the first time,
             a student looking to sharpen your skills, or a professional wanting to
-            stay current — we've built this platform with you in mind.
+            stay current, we've built this platform with you in mind.
           </p>
         </div>
       </section>
@@ -66,7 +66,7 @@ export default function AboutPage() {
           <p>
             We noticed that most AI tutorials are written for technical audiences.
             They assume you already know programming or have experience with
-            technology. We wanted to create something different — a platform where
+            technology. We wanted to create something different, a platform where
             anyone can sit down and start learning AI tools immediately.
           </p>
         </div>
@@ -117,7 +117,7 @@ export default function AboutPage() {
       <footer className="site-footer">
         <div className="footer-inner">
           <div>
-            <div className="footer-brand">✦ AI Teaching Hub</div>
+            <div className="footer-brand">✦ PromptPilot</div>
             <p className="footer-desc">
               Making AI education accessible for everyone, regardless of age or experience.
             </p>
@@ -139,7 +139,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="footer-bottom">
-          © 2026 AI Teaching Hub. All rights reserved.
+          © 2026 PromptPilot. All rights reserved.
         </div>
       </footer>
     </>

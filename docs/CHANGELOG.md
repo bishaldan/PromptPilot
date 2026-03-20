@@ -1,8 +1,20 @@
 # Changelog
 
-All notable changes to the AI Auto Teaching Hub are documented here.
+All notable changes to PromptPilot are documented here.
 
 Format: `## [version] — YYYY-MM-DD`
+
+---
+
+## [Unreleased]
+
+### 🧹 Publish readiness
+
+- Removed personal local-network host permissions from the extension manifest
+- Replaced hardcoded default admin credentials with optional env-based admin bootstrap in `prisma/seed.ts`
+- Added `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`, GitHub Actions CI, and PR template
+- Rewrote README and technical docs for public GitHub presentation
+- Updated Docker and environment examples to use safer configurable values
 
 ---
 

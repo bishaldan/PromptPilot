@@ -1,174 +1,81 @@
-# AI Auto Teaching Hub - Full Documentation
+# PromptPilot Technical Notes
 
-## 1. Product Overview
-AI Auto Teaching Hub is a Gemini-first training platform that teaches users how to use AI tools with guided, verified, real-time steps.
+## Overview
 
-Core behavior:
-- User signs up and logs in.
-- User accepts monitoring consent.
-- User chooses a lesson and starts a lesson run.
-- Web app sends a signed lesson token to Chrome extension.
-- Extension monitors only required step actions on Gemini pages.
-- Backend validates step completion in strict order.
-- Progress is saved and a badge is awarded when lesson completes.
+PromptPilot is a Next.js application that teaches AI product workflows through guided lessons, strict step validation, and a Chrome extension bridge. The current product is Gemini-first, but the runtime supports multiple AI destinations and lesson content files.
 
-## 2. MVP Scope
-In scope:
-- Individual learners
-- Email/password auth
-- Consent gate
-- Gemini lesson catalog
-- Strict step lock
-- Extension highlight + event reporting
-- Progress + badge tracking
-- Gemini feature-tour lesson (`+`, Tools, model selector)
+## Architecture
 
-Out of scope:
-- Multi-tool curriculum beyond Gemini
-- Team/classroom management
-- Certificates
-- AI-generated lesson authoring
+### Core services
 
-## 3. Architecture
-Main components:
-- React frontend (Next.js App Router)
-- Next.js API routes backend
-- Prisma ORM
-- MariaDB
-- Chrome Extension (Manifest V3)
+- **Web app**: Next.js App Router UI and API routes
+- **Persistence**: MariaDB accessed through Prisma
+- **Extension bridge**: Manifest V3 background worker, bridge script, and content script
+- **Lesson engine**: validates ordered step progression, run state, and completion rules
 
-Runtime flow:
-1. User starts lesson via web app.
-2. Backend creates `LessonRun` and returns signed `lessonRunToken` (30 min).
-3. Web app sends `CONNECT_LESSON` message to extension.
-4. Extension validates token through backend.
-5. Extension receives run state and highlights current selector in Gemini.
-6. Extension emits step events.
-7. Backend stores telemetry event and advances only when current step rule is satisfied.
+### Top-level flow
 
-## 4. Repository Structure
-- `src/app` - Next.js pages and API routes
-- `src/lib` - auth/token/crypto/runtime helpers
-- `src/types` - shared TypeScript contracts
-- `prisma/schema.prisma` - database schema
-- `prisma/seed.ts` - data seeding
-- `data/lessons/gemini-lessons.json` - authored lesson content
-- `extension/` - Chrome extension source
-- `tests/` - Vitest unit tests
-- `docker-compose.yml` - Docker runtime
-- `Dockerfile` - web container image
+```mermaid
+sequenceDiagram
+  participant U as Learner
+  participant W as Web app
+  participant A as API routes
+  participant E as Chrome extension
+  participant T as AI tool tab
+  participant D as MariaDB
 
-## 5. Environment Variables
-Required app variables:
-- `DATABASE_URL`
-- `AUTH_SECRET`
-- `LESSON_TOKEN_SECRET`
-- `POLICY_VERSION`
-- `NEXT_PUBLIC_APP_URL`
-- `NEXT_PUBLIC_API_BASE_URL` (optional, keep empty for same-origin `/api`)
-
-Notes:
-- Use different strong values for `AUTH_SECRET` and `LESSON_TOKEN_SECRET`.
-- Web-to-extension messaging now works automatically through a localhost content-script bridge.
-
-## 6. Setup And Run
-### 6.1 Local Node.js
-1. `npm install`
-2. `npm run prisma:generate`
-3. `npm run prisma:push`
-4. `npm run seed`
-5. `npm run dev`
-
-### 6.2 Docker
-1. `docker compose up -d --build`
-2. Open `http://localhost:3000`
-
-Docker ports:
-- Web: `3000`
-- MariaDB host mapping: `3307 -> 3306`
-
-## 7. Chrome Extension Setup
-1. Open `chrome://extensions`
-2. Enable Developer Mode
-3. Click `Load unpacked`
-4. Select `extension/`
-5. Reload extension after updates
-6. Restart app (or Docker stack) if needed
-
-## 8. Lesson Content Model
-Seed file: `data/lessons/gemini-lessons.json`
-
-Lesson shape:
-- `id`, `tool`, `title`, `description`
-- `steps[]`
-
-Step shape:
-- `id`, `order`, `instruction`
-- `urlPattern`
-- `targetSelectors[]`
-- `actionType`: `navigate | click | input | wait_for_response`
-- `completionRule`: `element_visible | clicked_target | input_detected | response_detected`
-- `allowManualConfirm`
-
-## 9. Database Model
-Main tables:
-- `User`
-- `Consent`
-- `Tool`
-- `Lesson`
-- `LessonStep`
-- `LessonRun`
-- `LessonRunStep`
-- `TelemetryEvent`
-- `BadgeAward`
-
-Key behaviors:
-- One consent record per `(userId, policyVersion)`.
-- Each run contains one status row per lesson step.
-- First run step is `ACTIVE`; all others start `LOCKED`.
-- Badge is unique per `(userId, lessonId)`.
-
-## 10. API Contracts
-### Auth
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-
-Request:
-```json
-{ "email": "user@example.com", "password": "Password123!" }
+  U->>W: Start lesson
+  W->>A: POST /api/lesson-runs/start
+  A->>D: Create lesson run + run steps
+  A-->>W: lessonRunToken + run metadata
+  W->>E: CONNECT_LESSON_FROM_WEB
+  E->>A: POST /api/extension/connect
+  A-->>E: current run state
+  E->>T: highlight current target
+  T->>E: user action observed
+  E->>A: POST /api/lesson-runs/:runId/events
+  A->>D: store telemetry + advance state if valid
+  A-->>E: updated state
+  E-->>T: next step guidance
 ```
 
-### Consent
-- `POST /api/consent/accept`
+## Repository map
 
-### Tools and Lessons
-- `GET /api/tools`
-- `GET /api/tools/:toolId/lessons`
+- `src/app`: pages and API routes
+- `src/lib`: auth, crypto, runtime, Prisma, and HTTP helpers
+- `src/components`: reusable UI such as the navbar
+- `src/types`: shared lesson contracts
+- `data/tools.json`: tool registry
+- `data/lessons/*.json`: lesson content files
+- `prisma/schema.prisma`: relational model
+- `prisma/seed.ts`: tool, lesson, and optional admin bootstrap
+- `extension/`: bridge and content scripts
+- `tests/`: lesson engine and token tests
 
-### Lesson Runs
-- `POST /api/lesson-runs/start`
-- `GET /api/lesson-runs/:runId`
-- `POST /api/lesson-runs/:runId/events`
-- `POST /api/lesson-runs/:runId/complete-step`
-- `POST /api/lesson-runs/:runId/finish`
+## Runtime design
 
-### Progress
-- `GET /api/me/progress`
+### Lesson runs
 
-### Extension Endpoints
-- `POST /api/extension/connect`
-- `GET /api/extension/run-state`
+Each lesson run is created with one `LessonRunStep` row per lesson step.
 
-## 11. Extension Message Protocol
-Web app -> extension:
+- first step starts as `ACTIVE`
+- remaining steps start as `LOCKED`
+- completion only advances from the current active step
+- a completed lesson run awards a unique badge per user and lesson
+
+### Extension messaging
+
+Web app to extension:
+
 ```ts
 {
-  type: "CONNECT_LESSON";
+  type: "CONNECT_LESSON_FROM_WEB";
   lessonRunToken: string;
 }
 ```
 
-Content script -> background:
+Content script to background:
+
 ```ts
 {
   type: "STEP_EVENT";
@@ -183,61 +90,104 @@ Content script -> background:
 }
 ```
 
-## 12. Privacy And Data Handling
-Stored telemetry fields:
-- event type
-- selector identifier
-- input length bucket
-- URL hash
+### Supported selector types
 
-Not stored:
-- prompt text
-- model response text
+- CSS selectors
+- `text=...`
+- Gemini-specific `special=...` matchers for resilient targeting
 
-Consent requirements:
-- Lesson start is blocked until policy acceptance exists for current `POLICY_VERSION`.
+## Data model summary
 
-## 13. Step Progression Rules
-Strict step lock:
-- Only current `ACTIVE` step may complete.
-- Events for out-of-order steps are rejected.
-- Completion advances the next `LOCKED` step to `ACTIVE`.
-- Final step completion marks run `COMPLETED` and awards badge.
+Main tables:
 
-Manual fallback:
-- If `allowManualConfirm` is true for current step, user can manually confirm from web UI.
+- `User`
+- `Consent`
+- `Tool`
+- `Lesson`
+- `LessonStep`
+- `LessonRun`
+- `LessonRunStep`
+- `TelemetryEvent`
+- `BadgeAward`
 
-## 14. Tests
-Current tests:
-- `tests/lesson-engine.test.ts`
-- `tests/tokens.test.ts`
+Important invariants:
 
-Run:
-- `npm run test`
+- consent is unique per `userId + policyVersion`
+- lesson steps are unique per `lessonId + stepOrder`
+- badges are unique per `userId + lessonId`
+- step telemetry is stored without prompt text or model response text
+
+## Environment variables
+
+| Variable | Notes |
+| :-- | :-- |
+| `DATABASE_URL` | Required Prisma connection string |
+| `AUTH_SECRET` | Required session secret |
+| `LESSON_TOKEN_SECRET` | Required extension run-token secret |
+| `POLICY_VERSION` | Required consent gate version |
+| `NEXT_PUBLIC_APP_URL` | App origin |
+| `NEXT_PUBLIC_API_BASE_URL` | Optional override, usually empty |
+| `SEED_ADMIN_EMAIL` | Optional admin bootstrap |
+| `SEED_ADMIN_PASSWORD` | Optional admin bootstrap, minimum 12 chars |
+
+## Seeding behavior
+
+The seed script:
+
+1. loads `data/tools.json`
+2. auto-discovers lesson files in `data/lessons`
+3. upserts lessons and lesson steps
+4. optionally creates an admin user if `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are set
+
+No default admin credentials are committed.
+
+## Local setup
+
+### Docker
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+### Local Node.js
+
+```bash
+npm install
+npx prisma generate
+npx prisma db push
+npm run seed
+npm run dev
+```
+
+## Quality gates
+
 - `npm run lint`
+- `npm run test`
+- `npm run build`
 
-Docker run:
-- `docker compose exec web npm run test`
-- `docker compose exec web npm run lint`
+CI is defined in `.github/workflows/ci.yml`.
 
-## 15. Troubleshooting
-Docker web container not starting:
-- Run `docker compose logs web`
-- Ensure Docker daemon is running
-- Rebuild image: `docker compose up -d --build`
+## Troubleshooting
 
-Port conflict:
-- If host 3306 is occupied, use mapped port 3307 (already configured).
+### Extension does not connect
 
-Extension not connecting:
-- Ensure extension is loaded and enabled
-- Reload extension from `chrome://extensions` after code changes
-- Ensure app URL is `http://localhost:3000`
-- Check extension popup status and browser console
+- confirm the extension is reloaded in `chrome://extensions`
+- confirm the app is running on `http://localhost:3000`
+- check the extension popup for connection state
 
-Database issues:
-- Re-apply schema: `npm run prisma:push`
-- Re-seed lessons: `npm run seed`
+### Docker issues
+
+- inspect `docker compose logs web`
+- inspect `docker compose logs db`
+- confirm your `.env` has valid secrets and DB values
+
+### Database reset
+
+```bash
+npx prisma db push
+npm run seed
+```
 
 ## 16. Security Notes
 - Replace default secrets before shared usage.

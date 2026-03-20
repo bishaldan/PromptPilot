@@ -69,7 +69,11 @@ async function apiRequest(path, options = {}) {
 }
 
 async function pushStateToToolTabs(state) {
-  const tabs = await chrome.tabs.query({ url: ["https://gemini.google.com/*", "https://chatgpt.com/*"] });
+  const tabs = await chrome.tabs.query({ url: [
+    "https://gemini.google.com/*", 
+    "https://chatgpt.com/*",
+    "https://notebooklm.google.com/*"
+  ] });
   for (const tab of tabs) {
     if (!tab.id) continue;
     chrome.tabs.sendMessage(tab.id, {

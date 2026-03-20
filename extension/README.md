@@ -1,27 +1,41 @@
-# Extension
+# PromptPilot Coach Extension
 
-Manifest V3 extension for Gemini page guidance.
+Manifest V3 Chrome extension used by PromptPilot to bridge lesson runs from the local web app into supported AI tool tabs and report privacy-safe verification events back to the app.
 
-## Behavior
-- Receives `CONNECT_LESSON_FROM_WEB` via `bridge.js` on `localhost:3000` pages
-- Validates run token with backend (`/api/extension/connect`)
-- Sends run state to Gemini content script
-- Content script highlights current step target
-- Content script shows a right-side explanation callout connected by an arrow/line to the highlighted target
-- Content script reports detected step events to backend
+## Responsibilities
 
-Selector matching supported in lesson `targetSelectors`:
-- Plain CSS selector (default)
-- `css=...` explicit CSS selector
-- `text=...` find first visible element whose label/text contains that text
-- `special=gemini-add-file-button` robust matcher for Gemini `+` Add file button
-- `special=gemini-add-file-menu` menu item matcher for `+` attachment menu
-- `special=gemini-tools-button` robust matcher for Gemini Tools button
-- `special=gemini-tools-menu` menu item matcher for Tools popup
-- `special=gemini-model-selector` robust matcher for Gemini model selector (Pro/Gemini 3)
-- `special=gemini-model-menu` menu item matcher for model options popup
+- Receives `CONNECT_LESSON_FROM_WEB` from the PromptPilot web app through `bridge.js`
+- Validates lesson-run tokens with `/api/extension/connect`
+- Pushes current run state into supported tool tabs
+- Highlights the active target and renders coaching callouts
+- Reports step events back to `/api/lesson-runs/:runId/events`
 
-## Supported Host
+## Supported selector strategies
+
+- Plain CSS selectors
+- `css=...` explicit CSS selectors
+- `text=...` visible-text matchers
+- `special=gemini-add-file-button`
+- `special=gemini-add-file-menu`
+- `special=gemini-tools-button`
+- `special=gemini-tools-menu`
+- `special=gemini-model-selector`
+- `special=gemini-model-menu`
+
+## Supported hosts
+
 - `https://gemini.google.com/*`
-- `http://localhost:3000/*` (bridge script + Next.js API calls)
-- `http://127.0.0.1:3000/*` (bridge script + Next.js API calls)
+- `https://chatgpt.com/*`
+- `https://notebooklm.google.com/*`
+- `http://localhost:3000/*`
+- `http://127.0.0.1:3000/*`
+
+## Local development
+
+1. Open `chrome://extensions`
+2. Enable Developer Mode
+3. Click `Load unpacked`
+4. Select the `extension/` directory
+5. Reload the extension after any source change
+
+The extension is intentionally scoped to local PromptPilot development hosts and the supported AI tools above. Do not add personal network hostnames to the manifest before committing.

@@ -1109,11 +1109,26 @@ window.addEventListener("resize", () => {
 document.addEventListener(
   "click",
   (event) => {
-    if (!event.isTrusted) return;
     if (!activeRunState || !activeRunState.currentStep) return;
     const step = activeRunState.currentStep;
     if (step.completionRule !== "clicked_target") return;
 
+    // 1) Reliable bounding box check for the highlighted element (bypasses invisible overlay trackers)
+    if (highlightedElement) {
+      const rect = highlightedElement.getBoundingClientRect();
+      const pad = 4; // allow 4px padding in case of slight misclicks
+      if (
+        event.clientX >= rect.left - pad &&
+        event.clientX <= rect.right + pad &&
+        event.clientY >= rect.top - pad &&
+        event.clientY <= rect.bottom + pad
+      ) {
+        sendStepEvent("CLICK", step.id, lastCalloutSelector || "inferred_bbox");
+        return;
+      }
+    }
+
+    // 2) Fallback to standard DOM hierarchy
     const target = event.target;
     if (!(target instanceof Element)) return;
 

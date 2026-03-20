@@ -2,6 +2,8 @@ import { NextResponse, NextRequest } from "next/server";
 import { verifySessionToken } from "@/lib/tokens";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/me/stats — aggregated user stats
 export async function GET(req: NextRequest) {
   try {

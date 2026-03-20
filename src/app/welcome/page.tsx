@@ -8,7 +8,7 @@ export default function WelcomePage() {
     <main className="main-wrap">
       <div className="welcome-container">
         <div className="welcome-icon">✦</div>
-        <h1>Welcome to AI Teaching Hub!</h1>
+        <h1>Welcome to PromptPilot!</h1>
         <p className="welcome-subtitle">
           Your personal AI skills training platform. We'll guide you step-by-step through real AI tools
           with interactive, hands-on lessons.

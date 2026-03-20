@@ -57,7 +57,7 @@ export default function Navbar() {
       <div className="navbar-left">
         <a href="/dashboard" className="navbar-brand">
           <span className="navbar-logo">✦</span>
-          <span className="navbar-title">AI Teaching Hub</span>
+          <span className="navbar-title">PromptPilot</span>
         </a>
       </div>
 

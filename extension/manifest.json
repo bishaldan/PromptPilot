@@ -1,12 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "AI Auto Teaching Coach",
-  "version": "0.2.0",
+  "name": "PromptPilot Coach",
+  "version": "0.2.1",
   "description": "Guided AI practice with step highlights and verification — supports Google Gemini and ChatGPT.",
   "permissions": ["storage", "tabs"],
   "host_permissions": [
     "https://gemini.google.com/*",
     "https://chatgpt.com/*",
+    "https://notebooklm.google.com/*",
     "http://localhost:3000/*",
     "http://127.0.0.1:3000/*"
   ],
@@ -15,12 +16,19 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://localhost:3000/*", "http://127.0.0.1:3000/*"],
+      "matches": [
+        "http://localhost:3000/*", 
+        "http://127.0.0.1:3000/*"
+      ],
       "js": ["bridge.js"],
       "run_at": "document_start"
     },
     {
-      "matches": ["https://gemini.google.com/*", "https://chatgpt.com/*"],
+      "matches": [
+        "https://gemini.google.com/*", 
+        "https://chatgpt.com/*",
+        "https://notebooklm.google.com/*"
+      ],
       "js": ["content.js"],
       "run_at": "document_idle"
     }
